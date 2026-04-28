@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-blue: #1E3FA3;
+    --brand-blue-dark: #162D80;
+    --brand-blue-darker: #0D1A5C;
+    --brand-blue-light: #EBF0FB;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #0a0a0a;
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#1E3FA3] text-white px-6 py-3 text-sm font-medium tracking-wide hover:bg-[#162D80] transition-colors duration-200;
+  }
+
+  .btn-outline {
+    @apply border border-[#1E3FA3] text-[#1E3FA3] px-6 py-3 text-sm font-medium tracking-wide hover:bg-[#1E3FA3] hover:text-white transition-colors duration-200;
+  }
+
+  .btn-green {
+    @apply bg-green-600 text-white px-6 py-3 text-sm font-medium hover:bg-green-700 transition-colors duration-200 w-full;
+  }
+
+  .container-main {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.product-image-wrapper img {
+  transition: opacity 0.3s ease;
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "accent": "New Collection 2025",
+    "headline": "Every Stitch Has A Story",
+    "subheadline": "Premium bags and luggage designed for every adventure",
+    "cta": "Shop Now",
+    "ctaHref": "/collection",
+    "image": "",
+    "active": true
+  },
+  {
+    "id": "2",
+    "accent": "Backpack Collection",
+    "headline": "Built for the Journey",
+    "subheadline": "Explore our range of backpacks — from daily commutes to mountain trails",
+    "cta": "Shop Backpacks",
+    "ctaHref": "/backpacks",
+    "image": "",
+    "active": true
+  },
+  {
+    "id": "3",
+    "accent": "AeroGlide Series",
+    "headline": "Travel in Style",
+    "subheadline": "AeroGlide luggage — lightweight, stylish, built to last",
+    "cta": "Shop Luggage",
+    "ctaHref": "/luggage",
+    "image": "",
+    "active": true
+  }
+]
