@@ -57,7 +57,7 @@ export default function ImageUpload({ value, onChange, label, hint, required }: 
       )}
 
       {value ? (
-        <div className="relative group w-full">
+        <div className="relative w-full">
           <div className="relative w-full h-44 rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-50">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -66,29 +66,29 @@ export default function ImageUpload({ value, onChange, label, hint, required }: 
               className="w-full h-full object-cover"
               onError={e => { e.currentTarget.style.display = 'none' }}
             />
-            {/* overlay on hover */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => inputRef.current?.click()}
-                className="bg-white text-gray-800 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-gray-100"
-              >
-                <Upload size={12} /> Replace
-              </button>
-              <button
-                type="button"
-                onClick={() => onChange('')}
-                className="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-red-700"
-              >
-                <X size={12} /> Remove
-              </button>
-            </div>
+            {uploading && (
+              <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                <Loader2 size={20} className="animate-spin text-[#1E3FA3]" />
+              </div>
+            )}
           </div>
-          {uploading && (
-            <div className="absolute inset-0 bg-white/70 rounded-xl flex items-center justify-center">
-              <Loader2 size={20} className="animate-spin text-[#1E3FA3]" />
-            </div>
-          )}
+          {/* Always-visible buttons so mobile users can replace/remove */}
+          <div className="flex gap-2 mt-2">
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              className="flex-1 bg-gray-100 text-gray-800 px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-gray-200 active:bg-gray-300"
+            >
+              <Upload size={12} /> Replace
+            </button>
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              className="flex-1 bg-red-50 text-red-600 px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-red-100 active:bg-red-200"
+            >
+              <X size={12} /> Remove
+            </button>
+          </div>
         </div>
       ) : (
         <div

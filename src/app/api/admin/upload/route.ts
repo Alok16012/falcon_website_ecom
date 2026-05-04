@@ -11,13 +11,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
-    if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Only image files allowed' }, { status: 400 })
-    }
-
     if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json({ error: 'File too large (max 5MB)' }, { status: 400 })
+    }
+
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+    const allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'heif']
+    // Mobile browsers (iOS HEIC, Android) sometimes send empty file.type — fall back to extension
+    const typeOk = file.type.startsWith('image/') || (file.type === '' && allowedExts.includes(ext))
+    if (!typeOk) {
+      return NextResponse.json({ error: 'Only image files allowed' }, { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()
@@ -26,7 +29,6 @@ export async function POST(request: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads')
     await mkdir(uploadDir, { recursive: true })
 
-    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
     const filepath = path.join(uploadDir, filename)
 
