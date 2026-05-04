@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +21,6 @@ export async function POST(request: NextRequest) {
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
     const allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'heif']
-    // Mobile browsers (iOS HEIC, Android) sometimes send empty file.type — fall back to extension
     const typeOk = file.type.startsWith('image/') || (file.type === '' && allowedExts.includes(ext))
     if (!typeOk) {
       return NextResponse.json({ error: 'Only image files allowed' }, { status: 400 })
@@ -25,16 +28,24 @@ export async function POST(request: NextRequest) {
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
-
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
-    await mkdir(uploadDir, { recursive: true })
-
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-    const filepath = path.join(uploadDir, filename)
 
-    await writeFile(filepath, buffer)
+    const { error } = await supabase.storage
+      .from('product-images')
+      .upload(filename, buffer, {
+        contentType: file.type || 'image/jpeg',
+        upsert: false,
+      })
 
-    return NextResponse.json({ url: `/uploads/${filename}` })
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(filename)
+
+    return NextResponse.json({ url: publicUrl })
   } catch {
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
   }
