@@ -1,9 +1,10 @@
 import CategoryPage from '@/components/CategoryPage'
-import { products } from '@/lib/products'
+import { getFeaturedProducts } from '@/lib/products'
 
 export const metadata = { title: 'All Collection — Falcon Plus Bags' }
 
 export default function CollectionPage() {
+  const products = getFeaturedProducts(100)
   return (
     <CategoryPage
       title="Full Collection"

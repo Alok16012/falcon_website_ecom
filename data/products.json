@@ -9,12 +9,22 @@
     "badge": "NEW",
     "rating": 4.5,
     "reviews": 124,
-    "image": "https://picsum.photos/seed/bp001a/600/700",
+    "image": "/uploads/1777888476262-plvuu17mw2p.webp",
     "hoverImage": "https://picsum.photos/seed/bp001b/600/700",
     "description": "The perfect urban companion. Dedicated padded laptop compartment, hidden anti-theft pockets, and ergonomic shoulder straps make this the go-to bag for daily commuters.",
-    "colors": ["Black", "Navy", "Charcoal"],
+    "colors": [
+      "Black",
+      "Navy",
+      "Charcoal"
+    ],
     "sizes": [],
-    "features": ["Fits 15.6\" Laptop", "Water Repellent", "USB Charging Port", "Anti-Theft Pocket", "Ergonomic Straps"],
+    "features": [
+      "Fits 15.6\" Laptop",
+      "Water Repellent",
+      "USB Charging Port",
+      "Anti-Theft Pocket",
+      "Ergonomic Straps"
+    ],
     "inStock": true
   },
   {
@@ -30,9 +40,18 @@
     "image": "https://picsum.photos/seed/bp002a/600/700",
     "hoverImage": "https://picsum.photos/seed/bp002b/600/700",
     "description": "Built for the tech professional. Accommodates up to 17\" laptops with padded protection, multiple organiser pockets, and a TSA-friendly layout.",
-    "colors": ["Black", "Dark Grey"],
+    "colors": [
+      "Black",
+      "Dark Grey"
+    ],
     "sizes": [],
-    "features": ["Fits 17\" Laptop", "TSA-Friendly", "Water Repellent", "USB Port", "Luggage Sleeve"],
+    "features": [
+      "Fits 17\" Laptop",
+      "TSA-Friendly",
+      "Water Repellent",
+      "USB Port",
+      "Luggage Sleeve"
+    ],
     "inStock": true
   },
   {
@@ -48,9 +67,19 @@
     "image": "https://picsum.photos/seed/bp003a/600/700",
     "hoverImage": "https://picsum.photos/seed/bp003b/600/700",
     "description": "Adventure-ready weekend bag with external frame support and modular compartments. Ideal for short treks or weekend getaways.",
-    "colors": ["Olive Green", "Rust Orange", "Navy"],
+    "colors": [
+      "Olive Green",
+      "Rust Orange",
+      "Navy"
+    ],
     "sizes": [],
-    "features": ["45L Capacity", "Rain Cover Included", "Hip Belt", "Multiple Compartments", "Cruelty-Free Materials"],
+    "features": [
+      "45L Capacity",
+      "Rain Cover Included",
+      "Hip Belt",
+      "Multiple Compartments",
+      "Cruelty-Free Materials"
+    ],
     "inStock": true
   },
   {
@@ -66,9 +95,18 @@
     "image": "https://picsum.photos/seed/bp004a/600/700",
     "hoverImage": "https://picsum.photos/seed/bp004b/600/700",
     "description": "Slim, professional, and stylish. Designed for the modern executive who needs to carry their essentials in a bag that looks as sharp as they do.",
-    "colors": ["Black", "Brown", "Tan"],
+    "colors": [
+      "Black",
+      "Brown",
+      "Tan"
+    ],
     "sizes": [],
-    "features": ["Premium Vegan Leather", "Fits 15\" Laptop", "Magnetic Closure", "Quick-Access Pockets"],
+    "features": [
+      "Premium Vegan Leather",
+      "Fits 15\" Laptop",
+      "Magnetic Closure",
+      "Quick-Access Pockets"
+    ],
     "inStock": true
   },
   {
@@ -84,9 +122,18 @@
     "image": "https://picsum.photos/seed/bp005a/600/700",
     "hoverImage": "https://picsum.photos/seed/bp005b/600/700",
     "description": "Casual, lightweight, and street-ready. Perfect for day trips, college, or exploring the city.",
-    "colors": ["Black/Red", "Black/Blue", "All Black"],
+    "colors": [
+      "Black/Red",
+      "Black/Blue",
+      "All Black"
+    ],
     "sizes": [],
-    "features": ["Lightweight 600g", "Padded Back Panel", "Reflective Strips", "Water Bottle Pockets"],
+    "features": [
+      "Lightweight 600g",
+      "Padded Back Panel",
+      "Reflective Strips",
+      "Water Bottle Pockets"
+    ],
     "inStock": true
   },
   {
@@ -102,9 +149,19 @@
     "image": "https://picsum.photos/seed/bp006a/600/700",
     "hoverImage": "https://picsum.photos/seed/bp006b/600/700",
     "description": "Serious gear for serious adventurers. The HikePro 55L features an aluminium frame, ventilated back panel, and waterproof base.",
-    "colors": ["Forest Green", "Navy", "Black"],
+    "colors": [
+      "Forest Green",
+      "Navy",
+      "Black"
+    ],
     "sizes": [],
-    "features": ["55L Capacity", "Aluminium Frame", "Waterproof Base", "Hip & Chest Straps", "Rain Cover"],
+    "features": [
+      "55L Capacity",
+      "Aluminium Frame",
+      "Waterproof Base",
+      "Hip & Chest Straps",
+      "Rain Cover"
+    ],
     "inStock": true
   },
   {
@@ -120,9 +177,18 @@
     "image": "https://picsum.photos/seed/df001a/600/700",
     "hoverImage": "https://picsum.photos/seed/df001b/600/700",
     "description": "Your weekend, your style. The Urban Weekend Duffel offers a spacious main compartment, separate shoe pocket, and premium canvas construction.",
-    "colors": ["Black", "Tan", "Olive"],
+    "colors": [
+      "Black",
+      "Tan",
+      "Olive"
+    ],
     "sizes": [],
-    "features": ["Separate Shoe Compartment", "Detachable Shoulder Strap", "Water Repellent Canvas", "Interior Pockets"],
+    "features": [
+      "Separate Shoe Compartment",
+      "Detachable Shoulder Strap",
+      "Water Repellent Canvas",
+      "Interior Pockets"
+    ],
     "inStock": true
   },
   {
@@ -138,9 +204,18 @@
     "image": "https://picsum.photos/seed/df002a/600/700",
     "hoverImage": "https://picsum.photos/seed/df002b/600/700",
     "description": "From gym to street. The FlexFit features ventilated side pockets, a wet/dry compartment, and bold colorways.",
-    "colors": ["Black/Red", "Grey/Blue", "All Black"],
+    "colors": [
+      "Black/Red",
+      "Grey/Blue",
+      "All Black"
+    ],
     "sizes": [],
-    "features": ["Ventilated Pocket", "Wet/Dry Compartment", "Padded Handles", "Reflective Details"],
+    "features": [
+      "Ventilated Pocket",
+      "Wet/Dry Compartment",
+      "Padded Handles",
+      "Reflective Details"
+    ],
     "inStock": true
   },
   {
@@ -156,9 +231,18 @@
     "image": "https://picsum.photos/seed/df003a/600/700",
     "hoverImage": "https://picsum.photos/seed/df003b/600/700",
     "description": "Designed for long trips. The Voyager XL features a full-width opening, TSA lock compatible zipper pockets, and convertible shoulder straps.",
-    "colors": ["Navy", "Black", "Forest Green"],
+    "colors": [
+      "Navy",
+      "Black",
+      "Forest Green"
+    ],
     "sizes": [],
-    "features": ["Convertible Backpack Straps", "TSA Lock Pocket", "Padded Base", "Carry-On Compatible"],
+    "features": [
+      "Convertible Backpack Straps",
+      "TSA Lock Pocket",
+      "Padded Base",
+      "Carry-On Compatible"
+    ],
     "inStock": true
   },
   {
@@ -169,14 +253,23 @@
     "price": 1299,
     "mrp": 1999,
     "badge": "SALE",
-    "rating": 4.0,
+    "rating": 4,
     "reviews": 34,
     "image": "https://picsum.photos/seed/df004a/600/700",
     "hoverImage": "https://picsum.photos/seed/df004b/600/700",
     "description": "The perfect travel companion that fits in your suitcase. The FoldAway Duffel compresses into its own pocket and expands to a full 40L bag in seconds.",
-    "colors": ["Black", "Navy", "Teal"],
+    "colors": [
+      "Black",
+      "Navy",
+      "Teal"
+    ],
     "sizes": [],
-    "features": ["Folds Into Own Pocket", "40L When Expanded", "Lightweight 350g", "Ripstop Nylon"],
+    "features": [
+      "Folds Into Own Pocket",
+      "40L When Expanded",
+      "Lightweight 350g",
+      "Ripstop Nylon"
+    ],
     "inStock": true
   },
   {
@@ -192,9 +285,21 @@
     "image": "https://picsum.photos/seed/lg001a/600/700",
     "hoverImage": "https://picsum.photos/seed/lg001b/600/700",
     "description": "Lightweight cabin luggage with 360° spinner wheels and a TSA-approved combination lock. Fits in all major airline overhead bins.",
-    "colors": ["Black", "Navy", "Silver"],
-    "sizes": ["20\""],
-    "features": ["360° Spinner Wheels", "TSA Lock", "Expandable", "Polycarbonate Shell", "Airline Approved"],
+    "colors": [
+      "Black",
+      "Navy",
+      "Silver"
+    ],
+    "sizes": [
+      "20\""
+    ],
+    "features": [
+      "360° Spinner Wheels",
+      "TSA Lock",
+      "Expandable",
+      "Polycarbonate Shell",
+      "Airline Approved"
+    ],
     "inStock": true
   },
   {
@@ -210,9 +315,22 @@
     "image": "https://picsum.photos/seed/lg002a/600/700",
     "hoverImage": "https://picsum.photos/seed/lg002b/600/700",
     "description": "Our best-selling medium suitcase. Perfect for trips up to 10 days. The AeroGlide 24\" combines lightweight polycarbonate shell with smooth silent spinner wheels.",
-    "colors": ["Black", "Navy", "Rose Gold", "Silver"],
-    "sizes": ["24\""],
-    "features": ["360° Spinner Wheels", "TSA Lock", "Expandable +20%", "Polycarbonate Shell", "Interior Divider"],
+    "colors": [
+      "Black",
+      "Navy",
+      "Rose Gold",
+      "Silver"
+    ],
+    "sizes": [
+      "24\""
+    ],
+    "features": [
+      "360° Spinner Wheels",
+      "TSA Lock",
+      "Expandable +20%",
+      "Polycarbonate Shell",
+      "Interior Divider"
+    ],
     "inStock": true
   },
   {
@@ -228,9 +346,21 @@
     "image": "https://picsum.photos/seed/lg003a/600/700",
     "hoverImage": "https://picsum.photos/seed/lg003b/600/700",
     "description": "Maximum capacity for the extended traveller. Generous 110L capacity with dual compression straps and a dedicated laundry bag.",
-    "colors": ["Black", "Navy", "Silver"],
-    "sizes": ["28\""],
-    "features": ["110L Capacity", "360° Spinner Wheels", "TSA Lock", "Dual Compression Straps", "Laundry Bag"],
+    "colors": [
+      "Black",
+      "Navy",
+      "Silver"
+    ],
+    "sizes": [
+      "28\""
+    ],
+    "features": [
+      "110L Capacity",
+      "360° Spinner Wheels",
+      "TSA Lock",
+      "Dual Compression Straps",
+      "Laundry Bag"
+    ],
     "inStock": true
   },
   {
@@ -246,9 +376,21 @@
     "image": "https://picsum.photos/seed/lg004a/600/700",
     "hoverImage": "https://picsum.photos/seed/lg004b/600/700",
     "description": "The complete travel solution. Our best-value combo includes the AeroGlide Cabin 20\" and AeroGlide Large 28\" as a matching set at an unbeatable price.",
-    "colors": ["Black Set", "Navy Set"],
-    "sizes": ["20\"", "28\""],
-    "features": ["2-Piece Set", "Matching Design", "360° Spinner Wheels", "TSA Lock on Both", "Save ₹5,000"],
+    "colors": [
+      "Black Set",
+      "Navy Set"
+    ],
+    "sizes": [
+      "20\"",
+      "28\""
+    ],
+    "features": [
+      "2-Piece Set",
+      "Matching Design",
+      "360° Spinner Wheels",
+      "TSA Lock on Both",
+      "Save ₹5,000"
+    ],
     "inStock": true
   }
 ]

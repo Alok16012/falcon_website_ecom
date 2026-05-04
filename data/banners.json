@@ -6,8 +6,8 @@
     "subheadline": "Premium bags and luggage designed for every adventure",
     "cta": "Shop Now",
     "ctaHref": "/collection",
-    "image": "",
-    "active": true
+    "image": "/uploads/1777888372557-p7u5ut2fiqd.webp",
+    "active": false
   },
   {
     "id": "2",
@@ -16,17 +16,7 @@
     "subheadline": "Explore our range of backpacks — from daily commutes to mountain trails",
     "cta": "Shop Backpacks",
     "ctaHref": "/backpacks",
-    "image": "",
-    "active": true
-  },
-  {
-    "id": "3",
-    "accent": "AeroGlide Series",
-    "headline": "Travel in Style",
-    "subheadline": "AeroGlide luggage — lightweight, stylish, built to last",
-    "cta": "Shop Luggage",
-    "ctaHref": "/luggage",
-    "image": "",
+    "image": "/uploads/1777888422360-asexkvt4k6g.webp",
     "active": true
   }
 ]
