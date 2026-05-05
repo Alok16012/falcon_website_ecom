@@ -1,5 +1,4 @@
-import fs from 'fs'
-import path from 'path'
+import { createClient } from '@supabase/supabase-js'
 
 export interface Product {
   id: string
@@ -20,27 +19,58 @@ export interface Product {
   inStock: boolean
 }
 
-function loadProducts(): Product[] {
-  const dataPath = path.join(process.cwd(), 'data', 'products.json')
-  return JSON.parse(fs.readFileSync(dataPath, 'utf-8'))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toProduct(row: any): Product {
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    category: row.category,
+    price: Number(row.price),
+    mrp: Number(row.mrp),
+    badge: row.badge ?? null,
+    rating: Number(row.rating),
+    reviews: Number(row.reviews),
+    image: row.image ?? '',
+    hoverImage: row.hover_image ?? '',
+    description: row.description ?? '',
+    colors: row.colors ?? [],
+    sizes: row.sizes ?? [],
+    features: row.features ?? [],
+    inStock: Boolean(row.in_stock),
+  }
 }
 
-export function getProductsByCategory(category: string): Product[] {
-  return loadProducts().filter((p) => p.category === category)
+function client() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 }
 
-export function getProductBySlug(slug: string): Product | undefined {
-  return loadProducts().find((p) => p.slug === slug)
+export async function getProductsByCategory(category: string): Promise<Product[]> {
+  const { data } = await client().from('products').select('*').eq('category', category)
+  return (data ?? []).map(toProduct)
 }
 
-export function getFeaturedProducts(limit = 8): Product[] {
-  return loadProducts().slice(0, limit)
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+  const { data } = await client().from('products').select('*').eq('slug', slug).single()
+  return data ? toProduct(data) : undefined
 }
 
-export function getRelatedProducts(product: Product, limit = 4): Product[] {
-  return loadProducts()
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, limit)
+export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
+  const { data } = await client().from('products').select('*').limit(limit)
+  return (data ?? []).map(toProduct)
+}
+
+export async function getRelatedProducts(product: Product, limit = 4): Promise<Product[]> {
+  const { data } = await client()
+    .from('products')
+    .select('*')
+    .eq('category', product.category)
+    .neq('id', product.id)
+    .limit(limit)
+  return (data ?? []).map(toProduct)
 }
 
 export const categories = [

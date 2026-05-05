@@ -5,8 +5,10 @@ import ProductCard from '@/components/ProductCard'
 import NewsletterForm from '@/components/NewsletterForm'
 import { getFeaturedProducts, categories } from '@/lib/products'
 
-export default function HomePage() {
-  const featured = getFeaturedProducts(8)
+export const dynamic = 'force-dynamic'
+
+export default async function HomePage() {
+  const featured = await getFeaturedProducts(8)
 
   return (
     <>
@@ -145,7 +147,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
-            {featured.filter(p => p.category === 'backpacks').slice(0, 4).map((product) => (
+            {featured.filter((p: { category: string }) => p.category === 'backpacks').slice(0, 4).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

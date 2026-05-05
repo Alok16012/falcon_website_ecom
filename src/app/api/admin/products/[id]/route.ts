@@ -1,33 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { createClient } from '@supabase/supabase-js'
 
-const dataPath = path.join(process.cwd(), 'data', 'products.json')
-
-function readProducts() {
-  return JSON.parse(fs.readFileSync(dataPath, 'utf-8'))
+function db() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
 }
 
-function writeProducts(data: unknown) {
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toRow(body: any) {
+  return {
+    slug: body.slug,
+    name: body.name,
+    category: body.category,
+    price: body.price,
+    mrp: body.mrp,
+    badge: body.badge ?? null,
+    rating: body.rating,
+    reviews: body.reviews,
+    image: body.image ?? '',
+    hover_image: body.hoverImage ?? '',
+    description: body.description ?? '',
+    colors: body.colors ?? [],
+    sizes: body.sizes ?? [],
+    features: body.features ?? [],
+    in_stock: body.inStock ?? true,
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toProduct(row: any) {
+  return { ...row, hoverImage: row.hover_image, inStock: row.in_stock }
 }
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const products = readProducts()
-  const product = products.find((p: { id: string }) => p.id === params.id)
-  if (!product) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json(product)
+  const { data, error } = await db().from('products').select('*').eq('id', params.id).single()
+  if (error) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  return NextResponse.json(toProduct(data))
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const body = await req.json()
-    const products = readProducts()
-    const idx = products.findIndex((p: { id: string }) => p.id === params.id)
-    if (idx === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    products[idx] = { ...products[idx], ...body, id: params.id }
-    writeProducts(products)
-    return NextResponse.json(products[idx])
+    const row = toRow({ ...body, id: params.id })
+    const { error } = await db().from('products').update(row).eq('id', params.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json(toProduct({ ...row, id: params.id }))
   } catch {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 })
   }
@@ -35,12 +54,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const products = readProducts()
-    const filtered = products.filter((p: { id: string }) => p.id !== params.id)
-    if (filtered.length === products.length) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    }
-    writeProducts(filtered)
+    const { error } = await db().from('products').delete().eq('id', params.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 })

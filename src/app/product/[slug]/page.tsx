@@ -2,12 +2,14 @@ import Link from 'next/link'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products'
 import ProductDetail from '@/components/ProductDetail'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: { slug: string }
 }
 
-export default function ProductPage({ params }: Props) {
-  const product = getProductBySlug(params.slug)
+export default async function ProductPage({ params }: Props) {
+  const product = await getProductBySlug(params.slug)
 
   if (!product) {
     return (
@@ -21,6 +23,6 @@ export default function ProductPage({ params }: Props) {
     )
   }
 
-  const related = getRelatedProducts(product, 4)
+  const related = await getRelatedProducts(product, 4)
   return <ProductDetail product={product} related={related} />
 }

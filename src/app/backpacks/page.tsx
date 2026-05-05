@@ -1,10 +1,11 @@
 import CategoryPage from '@/components/CategoryPage'
 import { getProductsByCategory } from '@/lib/products'
 
+export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Backpacks — Falcon Plus Bags' }
 
-export default function BackpacksPage() {
-  const products = getProductsByCategory('backpacks')
+export default async function BackpacksPage() {
+  const products = await getProductsByCategory('backpacks')
   return (
     <CategoryPage
       title="Backpacks"
