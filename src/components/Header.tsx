@@ -158,7 +158,7 @@ export default function Header() {
                 <Search size={20} />
               </button>
               <Link
-                href="#"
+                href="/account"
                 className="p-2 hover:bg-[#EBF0FB] rounded-full transition-colors text-gray-700 hidden sm:flex"
                 aria-label="Account"
               >
@@ -194,6 +194,14 @@ export default function Header() {
                 {item.dropdown && <ChevronDown size={16} className="text-gray-400" />}
               </Link>
             ))}
+            <Link
+              href="/account"
+              className="flex items-center gap-2 px-4 py-3.5 text-sm font-medium text-gray-700 hover:text-[#1E3FA3] hover:bg-[#EBF0FB] transition-colors"
+              onClick={() => setMobileOpen(false)}
+            >
+              <User size={16} />
+              My Account
+            </Link>
           </div>
         )}
       </header>
