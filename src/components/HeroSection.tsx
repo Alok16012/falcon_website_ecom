@@ -39,7 +39,9 @@ export default function HeroSection() {
       .then(r => r.json())
       .then((data: Banner[]) => {
         const active = data.filter(b => b.active)
-        if (active.length > 0) setSlides(active)
+        if (active.length > 0) {
+          setSlides(active.map(b => ({ ...b, image: b.image || '/hero-model.jpg' })))
+        }
       })
       .catch(() => {})
   }, [])
