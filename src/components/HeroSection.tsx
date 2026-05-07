@@ -22,9 +22,9 @@ const gradients = [
 ]
 
 const fallbackSlides: Banner[] = [
-  { id: '1', headline: 'Every Stitch Has A Story', subheadline: 'Premium bags and luggage designed for every adventure', cta: 'Shop Now', ctaHref: '/collection', accent: 'New Collection 2025', image: '', active: true },
+  { id: '1', headline: 'Every Stitch Has A Story', subheadline: 'Premium bags and luggage designed for every adventure', cta: 'Shop Now', ctaHref: '/collection', accent: 'New Collection 2025', image: '/hero-model.jpg', active: true },
   { id: '2', headline: 'Built for the Journey', subheadline: 'Explore our range of backpacks — from daily commutes to mountain trails', cta: 'Shop Backpacks', ctaHref: '/backpacks', accent: 'Backpack Collection', image: '', active: true },
-  { id: '3', headline: 'Travel in Style', subheadline: 'AeroGlide luggage — lightweight, stylish, built to last', cta: 'Shop Luggage', ctaHref: '/luggage', accent: 'AeroGlide Series', image: '', active: true },
+  { id: '3', headline: 'Travel in Style', subheadline: 'AeroGlide luggage — lightweight, stylish, built to last', cta: 'Shop Luggage', ctaHref: '/luggage', accent: 'AeroGlide Series', image: '/hero-model.jpg', active: true },
 ]
 
 export default function HeroSection() {
@@ -102,14 +102,14 @@ export default function HeroSection() {
 
             {/* Banner image — only shown if set */}
             {slide.image && (
-              <div key={`img-${current}`} className="hidden lg:flex flex-shrink-0 items-center justify-center animate-fadeIn">
-                <div className="relative w-72 h-72 xl:w-80 xl:h-80">
-                  <div className="absolute inset-0 rounded-full bg-white/10 blur-2xl scale-110" />
+              <div key={`img-${current}`} className="hidden lg:flex flex-shrink-0 items-end justify-center animate-fadeIn">
+                <div className="relative w-[420px] xl:w-[500px] h-[420px] xl:h-[480px]">
+                  <div className="absolute inset-0 bg-white/5 blur-3xl rounded-full scale-110" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={slide.image}
                     alt={slide.headline}
-                    className="relative w-full h-full object-contain drop-shadow-2xl"
+                    className="relative w-full h-full object-contain object-bottom drop-shadow-2xl"
                   />
                 </div>
               </div>
