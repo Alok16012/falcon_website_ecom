@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import localProducts from '../../data/products.json'
 
 export interface Product {
   id: string
@@ -17,7 +18,16 @@ export interface Product {
   sizes?: string[]
   features: string[]
   inStock: boolean
+  colorImages?: Record<string, string[]>
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const localColorImages: Record<string, Record<string, string[]>> = Object.fromEntries(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (localProducts as any[])
+    .filter(p => p.colorImages)
+    .map(p => [p.id, p.colorImages])
+)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toProduct(row: any): Product {
@@ -38,6 +48,7 @@ function toProduct(row: any): Product {
     sizes: row.sizes ?? [],
     features: row.features ?? [],
     inStock: Boolean(row.in_stock),
+    colorImages: row.color_images ?? localColorImages[row.id] ?? undefined,
   }
 }
 

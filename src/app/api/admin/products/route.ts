@@ -27,12 +27,13 @@ function toRow(body: any) {
     sizes: body.sizes ?? [],
     features: body.features ?? [],
     in_stock: body.inStock ?? true,
+    color_images: body.colorImages ?? null,
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toProduct(row: any) {
-  return { ...row, hoverImage: row.hover_image, inStock: row.in_stock }
+  return { ...row, hoverImage: row.hover_image, inStock: row.in_stock, colorImages: row.color_images }
 }
 
 export async function GET() {

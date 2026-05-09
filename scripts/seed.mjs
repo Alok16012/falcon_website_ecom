@@ -13,7 +13,24 @@ const supabase = createClient(
 async function seed() {
   // Seed products
   const products = JSON.parse(readFileSync(join(__dirname, '../data/products.json'), 'utf-8'))
-  const productRows = products.map(p => ({ id: p.id, slug: p.slug, category: p.category, data: p }))
+  const productRows = products.map(p => ({
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    category: p.category,
+    price: p.price,
+    mrp: p.mrp,
+    badge: p.badge ?? null,
+    rating: p.rating,
+    reviews: p.reviews,
+    image: p.image ?? '',
+    hover_image: p.hoverImage ?? '',
+    description: p.description ?? '',
+    colors: p.colors ?? [],
+    sizes: p.sizes ?? [],
+    features: p.features ?? [],
+    in_stock: p.inStock ?? true,
+  }))
   const { error: pe } = await supabase.from('products').upsert(productRows)
   if (pe) { console.error('Products error:', pe.message); process.exit(1) }
   console.log(`✓ Seeded ${products.length} products`)

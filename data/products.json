@@ -282,17 +282,11 @@
     "badge": null,
     "rating": 4.6,
     "reviews": 187,
-    "image": "https://picsum.photos/seed/lg001a/600/700",
-    "hoverImage": "https://picsum.photos/seed/lg001b/600/700",
+    "image": "/uploads/luggage/lg-blue-front.jpg",
+    "hoverImage": "/uploads/luggage/lg-blue-side1.jpg",
     "description": "Lightweight cabin luggage with 360° spinner wheels and a TSA-approved combination lock. Fits in all major airline overhead bins.",
-    "colors": [
-      "Black",
-      "Navy",
-      "Silver"
-    ],
-    "sizes": [
-      "20\""
-    ],
+    "colors": ["Sky Blue", "Mint Green", "Black", "Rose Gold", "Navy"],
+    "sizes": ["20\""],
     "features": [
       "360° Spinner Wheels",
       "TSA Lock",
@@ -300,7 +294,44 @@
       "Polycarbonate Shell",
       "Airline Approved"
     ],
-    "inStock": true
+    "inStock": true,
+    "colorImages": {
+      "Sky Blue": [
+        "/uploads/luggage/lg-blue-front.jpg",
+        "/uploads/luggage/lg-blue-side1.jpg",
+        "/uploads/luggage/lg-blue-side2.jpg",
+        "/uploads/luggage/lg-blue-spine.jpg",
+        "/uploads/luggage/lg-blue-interior.jpg"
+      ],
+      "Mint Green": [
+        "/uploads/luggage/lg-mint-front.jpg",
+        "/uploads/luggage/lg-mint-side1.jpg",
+        "/uploads/luggage/lg-mint-side2.jpg",
+        "/uploads/luggage/lg-mint-spine.jpg",
+        "/uploads/luggage/lg-mint-interior.jpg"
+      ],
+      "Black": [
+        "/uploads/luggage/lg-black-front.jpg",
+        "/uploads/luggage/lg-black-side1.jpg",
+        "/uploads/luggage/lg-black-side2.jpg",
+        "/uploads/luggage/lg-black-spine.jpg",
+        "/uploads/luggage/lg-black-interior.jpg"
+      ],
+      "Rose Gold": [
+        "/uploads/luggage/lg-rosegold-front.jpg",
+        "/uploads/luggage/lg-rosegold-side1.jpg",
+        "/uploads/luggage/lg-rosegold-side2.jpg",
+        "/uploads/luggage/lg-rosegold-back.jpg",
+        "/uploads/luggage/lg-rosegold-interior.jpg"
+      ],
+      "Navy": [
+        "/uploads/luggage/lg-navy-front.jpg",
+        "/uploads/luggage/lg-navy-side1.jpg",
+        "/uploads/luggage/lg-navy-side2.jpg",
+        "/uploads/luggage/lg-navy-back.jpg",
+        "/uploads/luggage/lg-navy-interior.jpg"
+      ]
+    }
   },
   {
     "id": "lg-002",
@@ -312,18 +343,11 @@
     "badge": "BESTSELLER",
     "rating": 4.8,
     "reviews": 324,
-    "image": "https://picsum.photos/seed/lg002a/600/700",
-    "hoverImage": "https://picsum.photos/seed/lg002b/600/700",
+    "image": "/uploads/luggage/lg-rosegold-front.jpg",
+    "hoverImage": "/uploads/luggage/lg-blue-front.jpg",
     "description": "Our best-selling medium suitcase. Perfect for trips up to 10 days. The AeroGlide 24\" combines lightweight polycarbonate shell with smooth silent spinner wheels.",
-    "colors": [
-      "Black",
-      "Navy",
-      "Rose Gold",
-      "Silver"
-    ],
-    "sizes": [
-      "24\""
-    ],
+    "colors": ["Sky Blue", "Mint Green", "Black", "Rose Gold", "Navy"],
+    "sizes": ["24\""],
     "features": [
       "360° Spinner Wheels",
       "TSA Lock",
@@ -331,7 +355,44 @@
       "Polycarbonate Shell",
       "Interior Divider"
     ],
-    "inStock": true
+    "inStock": true,
+    "colorImages": {
+      "Sky Blue": [
+        "/uploads/luggage/lg-blue-front.jpg",
+        "/uploads/luggage/lg-blue-side1.jpg",
+        "/uploads/luggage/lg-blue-side2.jpg",
+        "/uploads/luggage/lg-blue-spine.jpg",
+        "/uploads/luggage/lg-blue-interior.jpg"
+      ],
+      "Mint Green": [
+        "/uploads/luggage/lg-mint-front.jpg",
+        "/uploads/luggage/lg-mint-side1.jpg",
+        "/uploads/luggage/lg-mint-side2.jpg",
+        "/uploads/luggage/lg-mint-spine.jpg",
+        "/uploads/luggage/lg-mint-interior.jpg"
+      ],
+      "Black": [
+        "/uploads/luggage/lg-black-front.jpg",
+        "/uploads/luggage/lg-black-side1.jpg",
+        "/uploads/luggage/lg-black-side2.jpg",
+        "/uploads/luggage/lg-black-spine.jpg",
+        "/uploads/luggage/lg-black-interior.jpg"
+      ],
+      "Rose Gold": [
+        "/uploads/luggage/lg-rosegold-front.jpg",
+        "/uploads/luggage/lg-rosegold-side1.jpg",
+        "/uploads/luggage/lg-rosegold-side2.jpg",
+        "/uploads/luggage/lg-rosegold-back.jpg",
+        "/uploads/luggage/lg-rosegold-interior.jpg"
+      ],
+      "Navy": [
+        "/uploads/luggage/lg-navy-front.jpg",
+        "/uploads/luggage/lg-navy-side1.jpg",
+        "/uploads/luggage/lg-navy-side2.jpg",
+        "/uploads/luggage/lg-navy-back.jpg",
+        "/uploads/luggage/lg-navy-interior.jpg"
+      ]
+    }
   },
   {
     "id": "lg-003",
@@ -343,17 +404,11 @@
     "badge": null,
     "rating": 4.5,
     "reviews": 145,
-    "image": "https://picsum.photos/seed/lg003a/600/700",
-    "hoverImage": "https://picsum.photos/seed/lg003b/600/700",
+    "image": "/uploads/luggage/lg-black-front.jpg",
+    "hoverImage": "/uploads/luggage/lg-black-side1.jpg",
     "description": "Maximum capacity for the extended traveller. Generous 110L capacity with dual compression straps and a dedicated laundry bag.",
-    "colors": [
-      "Black",
-      "Navy",
-      "Silver"
-    ],
-    "sizes": [
-      "28\""
-    ],
+    "colors": ["Sky Blue", "Mint Green", "Black", "Rose Gold", "Navy"],
+    "sizes": ["28\""],
     "features": [
       "110L Capacity",
       "360° Spinner Wheels",
@@ -361,7 +416,44 @@
       "Dual Compression Straps",
       "Laundry Bag"
     ],
-    "inStock": true
+    "inStock": true,
+    "colorImages": {
+      "Sky Blue": [
+        "/uploads/luggage/lg-blue-front.jpg",
+        "/uploads/luggage/lg-blue-side1.jpg",
+        "/uploads/luggage/lg-blue-side2.jpg",
+        "/uploads/luggage/lg-blue-spine.jpg",
+        "/uploads/luggage/lg-blue-interior.jpg"
+      ],
+      "Mint Green": [
+        "/uploads/luggage/lg-mint-front.jpg",
+        "/uploads/luggage/lg-mint-side1.jpg",
+        "/uploads/luggage/lg-mint-side2.jpg",
+        "/uploads/luggage/lg-mint-spine.jpg",
+        "/uploads/luggage/lg-mint-interior.jpg"
+      ],
+      "Black": [
+        "/uploads/luggage/lg-black-front.jpg",
+        "/uploads/luggage/lg-black-side1.jpg",
+        "/uploads/luggage/lg-black-side2.jpg",
+        "/uploads/luggage/lg-black-spine.jpg",
+        "/uploads/luggage/lg-black-interior.jpg"
+      ],
+      "Rose Gold": [
+        "/uploads/luggage/lg-rosegold-front.jpg",
+        "/uploads/luggage/lg-rosegold-side1.jpg",
+        "/uploads/luggage/lg-rosegold-side2.jpg",
+        "/uploads/luggage/lg-rosegold-back.jpg",
+        "/uploads/luggage/lg-rosegold-interior.jpg"
+      ],
+      "Navy": [
+        "/uploads/luggage/lg-navy-front.jpg",
+        "/uploads/luggage/lg-navy-side1.jpg",
+        "/uploads/luggage/lg-navy-side2.jpg",
+        "/uploads/luggage/lg-navy-back.jpg",
+        "/uploads/luggage/lg-navy-interior.jpg"
+      ]
+    }
   },
   {
     "id": "lg-004",
@@ -373,17 +465,11 @@
     "badge": "SALE",
     "rating": 4.9,
     "reviews": 256,
-    "image": "https://picsum.photos/seed/lg004a/600/700",
-    "hoverImage": "https://picsum.photos/seed/lg004b/600/700",
+    "image": "/uploads/luggage/lg-rosegold-combo.jpg",
+    "hoverImage": "/uploads/luggage/lg-navy-combo.jpg",
     "description": "The complete travel solution. Our best-value combo includes the AeroGlide Cabin 20\" and AeroGlide Large 28\" as a matching set at an unbeatable price.",
-    "colors": [
-      "Black Set",
-      "Navy Set"
-    ],
-    "sizes": [
-      "20\"",
-      "28\""
-    ],
+    "colors": ["Sky Blue", "Mint Green", "Black", "Rose Gold", "Navy"],
+    "sizes": ["20\"", "28\""],
     "features": [
       "2-Piece Set",
       "Matching Design",
@@ -391,6 +477,33 @@
       "TSA Lock on Both",
       "Save ₹5,000"
     ],
-    "inStock": true
+    "inStock": true,
+    "colorImages": {
+      "Sky Blue": [
+        "/uploads/luggage/lg-blue-combo.jpg",
+        "/uploads/luggage/lg-blue-front.jpg",
+        "/uploads/luggage/lg-blue-interior.jpg"
+      ],
+      "Mint Green": [
+        "/uploads/luggage/lg-mint-combo.jpg",
+        "/uploads/luggage/lg-mint-front.jpg",
+        "/uploads/luggage/lg-mint-interior.jpg"
+      ],
+      "Black": [
+        "/uploads/luggage/lg-black-combo.jpg",
+        "/uploads/luggage/lg-black-front.jpg",
+        "/uploads/luggage/lg-black-interior.jpg"
+      ],
+      "Rose Gold": [
+        "/uploads/luggage/lg-rosegold-combo.jpg",
+        "/uploads/luggage/lg-rosegold-front.jpg",
+        "/uploads/luggage/lg-rosegold-interior.jpg"
+      ],
+      "Navy": [
+        "/uploads/luggage/lg-navy-combo.jpg",
+        "/uploads/luggage/lg-navy-front.jpg",
+        "/uploads/luggage/lg-navy-interior.jpg"
+      ]
+    }
   }
 ]

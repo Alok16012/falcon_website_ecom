@@ -20,7 +20,10 @@ export default function ProductDetail({ product, related }: Props) {
   const [openSection, setOpenSection] = useState<string | null>('description')
 
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100)
-  const images = [product.image, product.hoverImage, product.image, product.hoverImage]
+  const colorImgs = product.colorImages?.[selectedColor]
+  const images = colorImgs && colorImgs.length > 0
+    ? colorImgs
+    : [product.image, product.hoverImage].filter(Boolean)
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,7 +123,7 @@ export default function ProductDetail({ product, related }: Props) {
                 {product.colors.map((color) => (
                   <button
                     key={color}
-                    onClick={() => setSelectedColor(color)}
+                    onClick={() => { setSelectedColor(color); setActiveImage(0) }}
                     className={`px-3 py-1.5 text-sm border rounded transition-colors ${
                       selectedColor === color
                         ? 'border-[#1E3FA3] bg-[#1E3FA3] text-white'
