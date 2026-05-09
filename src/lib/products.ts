@@ -70,7 +70,12 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
 }
 
 export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
-  const { data } = await client().from('products').select('*').limit(limit)
+  // Fetch across all categories so luggage is included
+  const { data } = await client()
+    .from('products')
+    .select('*')
+    .in('id', ['lg-002', 'lg-004', 'bp-001', 'bp-004', 'df-002', 'df-003', 'bp-006', 'lg-001'])
+    .limit(limit)
   return (data ?? []).map(toProduct)
 }
 
@@ -103,7 +108,7 @@ export const categories = [
     name: 'Luggage',
     slug: 'luggage',
     description: 'Sleek trolleys for every journey',
-    image: 'https://picsum.photos/seed/cat-luggage/800/600',
+    image: '/uploads/luggage/lg-rosegold-combo.jpg',
     count: 4,
   },
   {

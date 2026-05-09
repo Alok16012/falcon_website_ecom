@@ -3,12 +3,15 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import ProductCard from '@/components/ProductCard'
 import NewsletterForm from '@/components/NewsletterForm'
-import { getFeaturedProducts, categories } from '@/lib/products'
+import { getFeaturedProducts, getProductsByCategory, categories } from '@/lib/products'
 
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const featured = await getFeaturedProducts(8)
+  const [featured, luggageProducts] = await Promise.all([
+    getFeaturedProducts(8),
+    getProductsByCategory('luggage'),
+  ])
 
   return (
     <>
@@ -150,6 +153,31 @@ export default async function HomePage() {
             {featured.filter((p: { category: string }) => p.category === 'backpacks').slice(0, 4).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Luggage */}
+      <section className="py-14 bg-[#EBF0FB]/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Trending Luggage</h2>
+              <p className="text-gray-500 text-sm">Premium hardside trolleys for every journey</p>
+            </div>
+            <Link href="/luggage" className="text-sm font-semibold text-[#1E3FA3] border-b border-[#1E3FA3] pb-0.5 hover:text-[#162D80] hover:border-[#162D80] transition-colors hidden sm:block">
+              View All →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+            {luggageProducts.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className="text-center mt-8 sm:hidden">
+            <Link href="/luggage" className="btn-outline inline-block rounded">
+              View All Luggage
+            </Link>
           </div>
         </div>
       </section>
