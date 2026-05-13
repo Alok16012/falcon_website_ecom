@@ -70,12 +70,7 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
 }
 
 export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
-  // Fetch across all categories so luggage is included
-  const { data } = await client()
-    .from('products')
-    .select('*')
-    .in('id', ['lg-002', 'lg-004', 'bp-001', 'bp-004', 'df-002', 'df-003', 'bp-006', 'lg-001'])
-    .limit(limit)
+  const { data } = await client().from('products').select('*').limit(limit)
   return (data ?? []).map(toProduct)
 }
 
