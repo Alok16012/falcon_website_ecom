@@ -44,17 +44,17 @@ const whenCards = [
   {
     title: 'Marketing Events',
     desc: 'Distributing gifts at marketing events creates brand visibility and serves as a memorable takeaway for attendees.',
-    image: 'https://picsum.photos/seed/marketing-event/600/400',
+    image: '/uploads/corporate/duffle-city.jpg',
   },
   {
     title: 'Conferences',
     desc: 'Gifting at conferences allows you to leave a lasting impression on participants and strengthens networking opportunities.',
-    image: 'https://picsum.photos/seed/conference/600/400',
+    image: '/uploads/corporate/duffle-studio.jpg',
   },
   {
     title: 'Exhibitions',
     desc: "Offering gifts at exhibitions enhances your booth's attractiveness and engages visitors, making your brand more memorable.",
-    image: 'https://picsum.photos/seed/exhibition/600/400',
+    image: '/uploads/corporate/duffle-open.jpg',
   },
 ]
 
@@ -111,10 +111,10 @@ export default function CorporateGiftingPage() {
             <div className="relative hidden lg:block">
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-white/10">
                 <Image
-                  src="https://picsum.photos/seed/corp-hero/700/500"
+                  src="/uploads/corporate/trolley-podium.jpg"
                   alt="Corporate gifting kits"
-                  fill className="object-cover opacity-80"
-                  sizes="50vw" unoptimized
+                  fill className="object-cover opacity-90"
+                  sizes="50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#0D1A5C]/40 to-transparent" />
                 {/* Stat chips */}
@@ -305,10 +305,10 @@ export default function CorporateGiftingPage() {
             </div>
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#EBF0FB]">
               <Image
-                src="https://picsum.photos/seed/corp-bags-why/700/525"
+                src="/uploads/corporate/trolley-white.jpg"
                 alt="Falcon Plus corporate gifting"
                 fill className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw" unoptimized
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
           </div>
