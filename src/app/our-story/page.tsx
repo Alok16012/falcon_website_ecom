@@ -47,19 +47,26 @@ export default function OurStoryPage() {
       {/* ── JOURNEY TIMELINE ── */}
       <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-center text-[#0D1A5C] mb-12 uppercase tracking-wide">Our Journey</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-center text-[#0D1A5C] mb-4 uppercase tracking-wide">Our Journey</h2>
+          <div className="w-12 h-1 bg-orange-500 mx-auto mb-12 rounded-full" />
 
-          <div className="grid md:grid-cols-3 gap-0 relative">
-            {/* connector line desktop */}
-            <div className="hidden md:block absolute top-[120px] left-[33%] right-[33%] h-1 bg-gradient-to-r from-[#1E3FA3] via-orange-400 to-[#0D1A5C] z-10" />
+          {/* Desktop: horizontal connector */}
+          <div className="hidden md:flex items-center justify-center mb-10 px-16">
+            <div className="w-6 h-6 rounded-full bg-[#1E3FA3] border-4 border-white shadow-md flex-shrink-0" />
+            <div className="flex-1 h-1 bg-gradient-to-r from-[#1E3FA3] to-orange-400" />
+            <div className="w-6 h-6 rounded-full bg-orange-500 border-4 border-white shadow-md flex-shrink-0" />
+            <div className="flex-1 h-1 bg-gradient-to-r from-orange-400 to-[#0D1A5C]" />
+            <div className="w-6 h-6 rounded-full bg-[#0D1A5C] border-4 border-white shadow-md flex-shrink-0" />
+          </div>
 
+          <div className="grid md:grid-cols-3 gap-6">
             {/* 2004 – Our Beginning */}
-            <div className="relative group">
-              <div className="bg-[#0D1A5C] text-white rounded-t-2xl px-6 py-4 text-center">
+            <div className="group overflow-hidden rounded-2xl shadow-sm border border-gray-100 bg-white flex flex-col">
+              <div className="bg-[#0D1A5C] text-white px-6 py-5 text-center">
                 <span className="text-3xl font-black text-orange-400">2004</span>
                 <p className="text-xs font-bold uppercase tracking-widest text-white/60 mt-1">Our Beginning</p>
               </div>
-              <div className="relative h-52 overflow-hidden bg-gray-200">
+              <div className="relative h-52 overflow-hidden bg-gray-200 flex-shrink-0">
                 <Image
                   src="/uploads/story/building.jpg"
                   alt="Falcon Plus building - our beginning"
@@ -67,9 +74,9 @@ export default function OurStoryPage() {
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
-              <div className="bg-white border border-gray-100 rounded-b-2xl p-5 shadow-sm">
+              <div className="p-5 flex-1">
                 <p className="text-sm text-gray-600 leading-relaxed">
                   Started in 2004 as <strong className="text-[#1E3FA3]">Sunshine Marketing</strong> with a small dream and big hopes. A small step towards quality and trust.
                 </p>
@@ -77,12 +84,12 @@ export default function OurStoryPage() {
             </div>
 
             {/* THEN */}
-            <div className="relative md:mt-6 group">
-              <div className="bg-orange-500 text-white rounded-t-2xl px-6 py-4 text-center">
+            <div className="group overflow-hidden rounded-2xl shadow-sm border border-orange-100 bg-white flex flex-col">
+              <div className="bg-orange-500 text-white px-6 py-5 text-center">
                 <span className="text-3xl font-black">THEN</span>
                 <p className="text-xs font-bold uppercase tracking-widest text-white/70 mt-1">Growing Every Day</p>
               </div>
-              <div className="relative h-52 overflow-hidden bg-gray-200">
+              <div className="relative h-52 overflow-hidden bg-gray-200 flex-shrink-0">
                 <Image
                   src="/uploads/story/stitching-machine.jpg"
                   alt="Worker at stitching machine"
@@ -92,7 +99,7 @@ export default function OurStoryPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
-              <div className="bg-white border border-orange-100 rounded-b-2xl p-5 shadow-sm">
+              <div className="p-5 flex-1">
                 <p className="text-sm text-gray-600 leading-relaxed">
                   Every day we grew with <strong className="text-orange-500">dedication</strong>, skilled hands, and a commitment to doing things the right way.
                 </p>
@@ -100,12 +107,12 @@ export default function OurStoryPage() {
             </div>
 
             {/* TODAY */}
-            <div className="relative group">
-              <div className="bg-[#0D1A5C] text-white rounded-t-2xl px-6 py-4 text-center">
+            <div className="group overflow-hidden rounded-2xl shadow-sm border border-gray-100 bg-white flex flex-col">
+              <div className="bg-[#0D1A5C] text-white px-6 py-5 text-center">
                 <span className="text-3xl font-black text-orange-400">TODAY</span>
                 <p className="text-xs font-bold uppercase tracking-widest text-white/60 mt-1">Our New Chapter</p>
               </div>
-              <div className="relative h-52 overflow-hidden bg-gray-200">
+              <div className="relative h-52 overflow-hidden bg-gray-200 flex-shrink-0">
                 <Image
                   src="/uploads/story/factory-floor.jpg"
                   alt="Modern factory floor today"
@@ -115,7 +122,7 @@ export default function OurStoryPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               </div>
-              <div className="bg-white border border-gray-100 rounded-b-2xl p-5 shadow-sm">
+              <div className="p-5 flex-1">
                 <p className="text-sm text-gray-600 leading-relaxed">
                   A <strong className="text-[#1E3FA3]">fully equipped manufacturing facility</strong> — modern machinery, a skilled team, and an unshakeable commitment to quality.
                 </p>
