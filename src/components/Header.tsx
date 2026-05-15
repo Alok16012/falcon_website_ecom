@@ -8,13 +8,11 @@ import AnnouncementBar from './AnnouncementBar'
 
 const navItems = [
   {
-    label: 'Duffels',
+    label: 'Duffel Bags',
     href: '/duffels',
     dropdown: [
-      { label: 'Urban Weekend Duffel', href: '/duffels' },
-      { label: 'FlexFit Gym Bag', href: '/duffels' },
-      { label: 'Voyager Travel XL', href: '/duffels' },
-      { label: 'FoldAway Duffel', href: '/duffels' },
+      { label: 'Neo Duffel Trolley', href: '/product/neo-duffel-trolley' },
+      { label: 'View All Duffel Bags', href: '/duffels' },
     ],
   },
   {
