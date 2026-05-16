@@ -21,7 +21,6 @@ const gradients = [
   'linear-gradient(135deg, #0A1545 0%, #1E3FA3 60%, #2B50C4 100%)',
 ]
 
-/* left-edge blend color per slide — matches the gradient's mid/right tone */
 const blendColors = ['#0D1A5C', '#162D80', '#0A1545']
 
 const fallbackSlides: Banner[] = [
@@ -58,7 +57,7 @@ export default function HeroSection() {
   const hasImage = Boolean(slide.image)
 
   return (
-    <div className="relative overflow-hidden min-h-[580px] sm:min-h-[660px] lg:min-h-[700px]">
+    <div className="relative overflow-hidden">
 
       {/* Full-width gradient backgrounds */}
       {slides.map((_, idx) => (
@@ -76,7 +75,7 @@ export default function HeroSection() {
         <div className="absolute top-1/3 left-16 w-1.5 h-1.5 rounded-full bg-white/30" />
       </div>
 
-      {/* RIGHT SIDE: Full-height image — absolutely fills right 50% */}
+      {/* Desktop RIGHT SIDE: Full-height image — absolutely fills right 50% */}
       {hasImage && (
         <div
           key={`img-${current}`}
@@ -89,14 +88,12 @@ export default function HeroSection() {
             alt={slide.headline}
             className="w-full h-full object-cover object-center"
           />
-          {/* Seamless blend: left edge fades into the gradient */}
           <div
             className="absolute inset-y-0 left-0 w-48 pointer-events-none"
             style={{
               background: `linear-gradient(to right, ${blendColors[current % blendColors.length]}, transparent)`,
             }}
           />
-          {/* Subtle top + bottom darkening */}
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
         </div>
@@ -109,9 +106,9 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* LEFT SIDE: Text — sits above the image layer */}
-      <div className="relative z-10 flex items-center min-h-[580px] sm:min-h-[660px] lg:min-h-[700px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
+      {/* LEFT SIDE: Text */}
+      <div className="relative z-10 flex items-center min-h-[340px] sm:min-h-[400px] lg:min-h-[700px]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-16">
           <div className={hasImage ? 'lg:max-w-[48%]' : 'max-w-2xl'}>
             <span
               key={`accent-${current}`}
@@ -151,18 +148,43 @@ export default function HeroSection() {
         </div>
       </div>
 
+      {/* Mobile IMAGE — shown below text on small/medium screens */}
+      {hasImage && (
+        <div
+          key={`mob-img-${current}`}
+          className="relative lg:hidden w-full overflow-hidden animate-fadeIn"
+          style={{ height: '240px' }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={slide.image}
+            alt={slide.headline}
+            className="w-full h-full object-cover object-top"
+          />
+          {/* Top fade — blends into gradient above */}
+          <div
+            className="absolute inset-x-0 top-0 h-20 pointer-events-none"
+            style={{
+              background: `linear-gradient(to bottom, ${blendColors[current % blendColors.length]}, transparent)`,
+            }}
+          />
+          {/* Bottom fade */}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+        </div>
+      )}
+
       {/* Nav arrows */}
       {slides.length > 1 && (
         <>
           <button
             onClick={() => setCurrent(prev => (prev - 1 + slides.length) % slides.length)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
+            className="absolute left-4 top-[170px] sm:top-[200px] lg:top-1/2 lg:-translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={() => setCurrent(prev => (prev + 1) % slides.length)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
+            className="absolute right-4 top-[170px] sm:top-[200px] lg:top-1/2 lg:-translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
           >
             <ChevronRight size={18} />
           </button>
@@ -171,7 +193,7 @@ export default function HeroSection() {
 
       {/* Dots */}
       {slides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {slides.map((_, idx) => (
             <button
               key={idx}

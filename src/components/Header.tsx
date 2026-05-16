@@ -157,7 +157,7 @@ export default function Header() {
               </button>
               <Link
                 href="/account"
-                className="p-2 hover:bg-[#EBF0FB] rounded-full transition-colors text-gray-700 hidden sm:flex"
+                className="p-2 hover:bg-[#EBF0FB] rounded-full transition-colors text-gray-700 flex"
                 aria-label="Account"
               >
                 <User size={20} />

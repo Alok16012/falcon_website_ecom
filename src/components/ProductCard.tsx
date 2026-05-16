@@ -71,10 +71,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           unoptimized
         />
 
-        {/* Add to cart overlay */}
-        <div className={`absolute inset-x-0 bottom-0 p-3 transition-all duration-200 ${
-          hovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}>
+        {/* Add to cart — always visible on mobile, hover-reveal on desktop */}
+        <div className="absolute inset-x-0 bottom-0 p-3 sm:opacity-0 sm:translate-y-full sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all duration-200">
           <button
             onClick={handleAddToCart}
             className={`w-full py-2.5 text-xs font-bold tracking-wide rounded flex items-center justify-center gap-2 transition-colors ${

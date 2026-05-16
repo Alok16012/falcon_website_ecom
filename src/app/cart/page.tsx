@@ -182,10 +182,13 @@ export default function CartPage() {
                 </form>
               </div>
 
-              <button className="w-full bg-[#1E3FA3] text-white py-3.5 text-sm font-semibold rounded hover:bg-[#162D80] transition-colors flex items-center justify-center gap-2">
+              <Link
+                href="/checkout"
+                className="w-full bg-[#1E3FA3] text-white py-3.5 text-sm font-semibold rounded hover:bg-[#162D80] transition-colors flex items-center justify-center gap-2"
+              >
                 Proceed to Checkout
                 <ArrowRight size={16} />
-              </button>
+              </Link>
 
               <div className="mt-4 space-y-1.5">
                 {['Secure checkout', 'Free returns', 'COD available'].map((f) => (
