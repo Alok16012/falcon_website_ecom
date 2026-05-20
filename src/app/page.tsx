@@ -83,16 +83,34 @@ export default async function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#EBF0FB]">
-              <Image
-                src="https://picsum.photos/seed/brandstory/800/600"
-                alt="Every Stitch Has A Story"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1E3FA3]/20 to-transparent" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden col-span-2">
+                <Image
+                  src="/uploads/story/factory-floor.jpg"
+                  alt="Falcon Plus factory floor"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="relative aspect-square rounded-xl overflow-hidden">
+                <Image
+                  src="/uploads/story/stitching-machine.jpg"
+                  alt="Stitching craftsmanship"
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                />
+              </div>
+              <div className="relative aspect-square rounded-xl overflow-hidden">
+                <Image
+                  src="/uploads/story/packaging.jpg"
+                  alt="Falcon Plus packaging"
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                />
+              </div>
             </div>
             <div>
               <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#1E3FA3] mb-3 block">Our Story</span>

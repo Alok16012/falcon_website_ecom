@@ -42,18 +42,34 @@ const whyCards = [
 
 const whenCards = [
   {
+    icon: '🎤',
+    title: 'Conferences',
+    desc: 'Leave a lasting impression on participants and strengthen networking with premium branded gifts.',
+    image: '/uploads/corporate/trolley-podium.jpg',
+    featured: true,
+  },
+  {
+    icon: '📣',
     title: 'Marketing Events',
-    desc: 'Distributing gifts at marketing events creates brand visibility and serves as a memorable takeaway for attendees.',
+    desc: 'Drive brand visibility with memorable takeaways your audience will use long after the event.',
     image: '/uploads/corporate/duffle-city.jpg',
   },
   {
-    title: 'Conferences',
-    desc: 'Gifting at conferences allows you to leave a lasting impression on participants and strengthens networking opportunities.',
+    icon: '🏛️',
+    title: 'Exhibitions',
+    desc: "Enhance your booth's appeal and engage visitors with gifts that make your brand unforgettable.",
     image: '/uploads/corporate/duffle-studio.jpg',
   },
   {
-    title: 'Exhibitions',
-    desc: "Offering gifts at exhibitions enhances your booth's attractiveness and engages visitors, making your brand more memorable.",
+    icon: '🏆',
+    title: 'Employee Rewards',
+    desc: 'Recognise milestones, celebrate achievements and build a culture of appreciation.',
+    image: '/uploads/corporate/trolley-white.jpg',
+  },
+  {
+    icon: '🎁',
+    title: 'Festive Gifting',
+    desc: 'Delight clients and partners during Diwali, New Year and every special occasion.',
     image: '/uploads/corporate/duffle-open.jpg',
   },
 ]
@@ -171,27 +187,44 @@ export default function CorporateGiftingPage() {
       </section>
 
       {/* ── WHEN CAN WE GIFT ── */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-[#F8F9FE]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#1E3FA3] mb-2 block">Every Occasion</span>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">When Can We Gift?</h2>
+            <p className="text-gray-500 text-sm mt-2">From boardrooms to celebrations — every moment is a gifting opportunity</p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {whenCards.map(({ title, desc, image }) => (
-              <div key={title} className="rounded-2xl overflow-hidden border border-blue-100 hover:shadow-md transition-shadow">
-                <div className="relative aspect-video bg-[#EBF0FB]">
-                  <Image src={image} alt={title} fill className="object-cover" sizes="400px" unoptimized />
-                  <div className="absolute inset-0 bg-[#0D1A5C]/30" />
-                  <div className="absolute bottom-3 left-4">
-                    <span className="text-white font-bold text-sm">{title}</span>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+
+          {/* Featured card + 4 small cards */}
+          <div className="grid lg:grid-cols-5 gap-4">
+            {/* Featured large card */}
+            {whenCards.filter(c => c.featured).map(({ icon, title, desc, image }) => (
+              <div key={title} className="lg:col-span-2 relative rounded-3xl overflow-hidden group cursor-default" style={{ minHeight: 380 }}>
+                <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width:1024px) 100vw, 40vw" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1A5C]/90 via-[#0D1A5C]/40 to-transparent" />
+                <div className="absolute inset-0 flex flex-col justify-end p-7">
+                  <span className="text-3xl mb-3">{icon}</span>
+                  <span className="inline-block bg-amber-400 text-[#0D1A5C] text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full w-fit mb-3">Featured</span>
+                  <h3 className="text-white text-2xl font-extrabold mb-2">{title}</h3>
+                  <p className="text-white/75 text-sm leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
+
+            {/* 4 smaller cards */}
+            <div className="lg:col-span-3 grid grid-cols-2 gap-4">
+              {whenCards.filter(c => !c.featured).map(({ icon, title, desc, image }) => (
+                <div key={title} className="relative rounded-2xl overflow-hidden group cursor-default" style={{ minHeight: 180 }}>
+                  <Image src={image} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width:640px) 50vw, 25vw" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D1A5C]/85 via-[#0D1A5C]/30 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <span className="text-xl mb-1">{icon}</span>
+                    <h3 className="text-white text-sm font-bold leading-tight mb-1">{title}</h3>
+                    <p className="text-white/70 text-[11px] leading-relaxed hidden sm:block">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
