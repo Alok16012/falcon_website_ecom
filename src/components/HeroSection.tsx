@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Banner {
@@ -15,23 +16,43 @@ interface Banner {
   active: boolean
 }
 
-const gradients = [
-  'linear-gradient(135deg, #0D1A5C 0%, #1E3FA3 50%, #162D80 100%)',
-  'linear-gradient(135deg, #162D80 0%, #2B50C4 55%, #1E3FA3 100%)',
-  'linear-gradient(135deg, #0A1545 0%, #1E3FA3 60%, #2B50C4 100%)',
-]
-
-const blendColors = ['#0D1A5C', '#162D80', '#0A1545']
-
 const fallbackSlides: Banner[] = [
-  { id: '1', headline: 'Every Stitch Has A Story', subheadline: 'Premium bags and luggage designed for every adventure', cta: 'Shop Now', ctaHref: '/collection', accent: 'New Collection 2025', image: '/hero-model.jpg', active: true },
-  { id: '2', headline: 'Built for the Journey', subheadline: 'Explore our range of backpacks — from daily commutes to mountain trails', cta: 'Shop Backpacks', ctaHref: '/backpacks', accent: 'Backpack Collection', image: '', active: true },
-  { id: '3', headline: 'Travel in Style', subheadline: 'AeroGlide luggage — lightweight, stylish, built to last', cta: 'Shop Luggage', ctaHref: '/luggage', accent: 'AeroGlide Series', image: '/hero-model.jpg', active: true },
+  {
+    id: '1',
+    headline: 'Every Stitch Has A Story',
+    subheadline: 'Premium bags and luggage designed for every adventure',
+    cta: 'Shop Now',
+    ctaHref: '/collection',
+    accent: 'New Collection 2025',
+    image: '/hero-model.jpg',
+    active: true,
+  },
+  {
+    id: '2',
+    headline: 'Built for the Journey',
+    subheadline: 'Explore our range of backpacks — from daily commutes to mountain trails',
+    cta: 'Shop Backpacks',
+    ctaHref: '/backpacks',
+    accent: 'Backpack Collection',
+    image: '/hero-model.jpg',
+    active: true,
+  },
+  {
+    id: '3',
+    headline: 'Travel in Style',
+    subheadline: 'AeroGlide luggage — lightweight, durable, built to last',
+    cta: 'Shop Luggage',
+    ctaHref: '/luggage',
+    accent: 'AeroGlide Series',
+    image: '/hero-model.jpg',
+    active: true,
+  },
 ]
 
 export default function HeroSection() {
   const [slides, setSlides] = useState<Banner[]>(fallbackSlides)
   const [current, setCurrent] = useState(0)
+  const [animKey, setAnimKey] = useState(0)
 
   useEffect(() => {
     fetch('/api/admin/banners')
@@ -49,91 +70,84 @@ export default function HeroSection() {
     if (slides.length <= 1) return
     const timer = setInterval(() => {
       setCurrent(prev => (prev + 1) % slides.length)
+      setAnimKey(k => k + 1)
     }, 5500)
     return () => clearInterval(timer)
   }, [slides.length])
 
+  function goTo(idx: number) {
+    setCurrent(idx)
+    setAnimKey(k => k + 1)
+  }
+
   const slide = slides[current] ?? slides[0]
-  const hasImage = Boolean(slide.image)
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative w-full overflow-hidden" style={{ height: 'clamp(420px, 70vw, 700px)' }}>
 
-      {/* Full-width gradient backgrounds */}
-      {slides.map((_, idx) => (
+      {/* ── Background images (full-bleed, crossfade) ── */}
+      {slides.map((s, idx) => (
         <div
-          key={idx}
-          className={`absolute inset-0 transition-opacity duration-1000 ${idx === current ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: gradients[idx % gradients.length] }}
-        />
+          key={s.id}
+          className="absolute inset-0 transition-opacity duration-1000"
+          style={{ opacity: idx === current ? 1 : 0 }}
+        >
+          <Image
+            src={s.image || '/hero-model.jpg'}
+            alt={s.headline}
+            fill
+            priority={idx === 0}
+            className="object-cover object-right sm:object-center"
+            sizes="100vw"
+            unoptimized
+          />
+        </div>
       ))}
 
-      {/* Decorative dots */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-1/4 w-2 h-2 rounded-full bg-white/20" />
-        <div className="absolute bottom-16 left-1/3 w-3 h-3 rounded-full bg-white/15" />
-        <div className="absolute top-1/3 left-16 w-1.5 h-1.5 rounded-full bg-white/30" />
-      </div>
+      {/* ── Gradient overlay ── */}
+      {/* Mobile: dark overlay across entire image for readability */}
+      <div className="absolute inset-0 bg-[#0D1A5C]/55 sm:bg-transparent" />
+      {/* Desktop: left-to-right fade so model is visible on right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1A5C]/90 via-[#0D1A5C]/50 to-transparent hidden sm:block" />
+      {/* Bottom fade always */}
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0D1A5C]/50 to-transparent" />
 
-      {/* Desktop RIGHT SIDE: Full-height image — absolutely fills right 50% */}
-      {hasImage && (
-        <div
-          key={`img-${current}`}
-          className="absolute right-0 top-0 bottom-0 hidden lg:block animate-fadeIn"
-          style={{ width: '50%' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={slide.image}
-            alt={slide.headline}
-            className="w-full h-full object-cover object-center"
-          />
-          <div
-            className="absolute inset-y-0 left-0 w-48 pointer-events-none"
-            style={{
-              background: `linear-gradient(to right, ${blendColors[current % blendColors.length]}, transparent)`,
-            }}
-          />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-        </div>
-      )}
+      {/* ── Text content ── */}
+      <div className="relative z-10 h-full flex items-center">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full">
+          <div className="max-w-lg">
 
-      {/* Watermark when no image */}
-      {!hasImage && (
-        <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:block opacity-5 select-none pointer-events-none">
-          <div className="text-[120px] font-black italic text-white leading-none tracking-tighter">F+</div>
-        </div>
-      )}
-
-      {/* LEFT SIDE: Text */}
-      <div className="relative z-10 flex items-center min-h-[340px] sm:min-h-[400px] lg:min-h-[700px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 lg:py-16">
-          <div className={hasImage ? 'lg:max-w-[48%]' : 'max-w-2xl'}>
+            {/* Accent label */}
             <span
-              key={`accent-${current}`}
-              className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase text-white/60 mb-5 animate-fadeIn"
+              key={`accent-${animKey}`}
+              className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.25em] uppercase text-white/60 mb-4 animate-fadeIn"
             >
-              <span className="w-8 h-px bg-white/40" />
+              <span className="w-6 h-px bg-white/40" />
               {slide.accent}
             </span>
+
+            {/* Headline */}
             <h1
-              key={`h1-${current}`}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-5 animate-fadeIn"
+              key={`h1-${animKey}`}
+              className="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-white leading-tight mb-4 animate-fadeIn"
             >
               {slide.headline}
             </h1>
+
+            {/* Sub */}
             <p
-              key={`sub-${current}`}
-              className="text-lg text-white/70 mb-8 leading-relaxed animate-fadeIn"
+              key={`sub-${animKey}`}
+              className="text-sm sm:text-base text-white/70 mb-7 leading-relaxed max-w-sm animate-fadeIn"
             >
               {slide.subheadline}
             </p>
+
+            {/* CTAs */}
             <div className="flex items-center gap-4 flex-wrap">
               <Link
+                key={`cta-${animKey}`}
                 href={slide.ctaHref}
-                key={`cta-${current}`}
-                className="inline-flex items-center gap-2 bg-white text-[#1E3FA3] px-7 py-3.5 text-sm font-bold tracking-wide hover:bg-[#EBF0FB] transition-colors rounded animate-fadeIn"
+                className="inline-flex items-center gap-2 bg-white text-[#1E3FA3] px-6 py-3 text-sm font-bold tracking-wide hover:bg-[#EBF0FB] transition-colors rounded-lg animate-fadeIn"
               >
                 {slide.cta}
               </Link>
@@ -148,57 +162,37 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Mobile IMAGE — shown below text on small/medium screens */}
-      {hasImage && (
-        <div
-          key={`mob-img-${current}`}
-          className="relative lg:hidden w-full overflow-hidden animate-fadeIn"
-          style={{ height: '240px' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={slide.image}
-            alt={slide.headline}
-            className="w-full h-full object-cover object-top"
-          />
-          {/* Top fade — blends into gradient above */}
-          <div
-            className="absolute inset-x-0 top-0 h-20 pointer-events-none"
-            style={{
-              background: `linear-gradient(to bottom, ${blendColors[current % blendColors.length]}, transparent)`,
-            }}
-          />
-          {/* Bottom fade */}
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-        </div>
-      )}
-
-      {/* Nav arrows */}
+      {/* ── Prev / Next arrows ── */}
       {slides.length > 1 && (
         <>
           <button
-            onClick={() => setCurrent(prev => (prev - 1 + slides.length) % slides.length)}
-            className="absolute left-4 top-[170px] sm:top-[200px] lg:top-1/2 lg:-translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
+            onClick={() => goTo((current - 1 + slides.length) % slides.length)}
+            className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 bg-white/15 hover:bg-white/30 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white backdrop-blur-sm"
+            aria-label="Previous"
           >
             <ChevronLeft size={18} />
           </button>
           <button
-            onClick={() => setCurrent(prev => (prev + 1) % slides.length)}
-            className="absolute right-4 top-[170px] sm:top-[200px] lg:top-1/2 lg:-translate-y-1/2 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white"
+            onClick={() => goTo((current + 1) % slides.length)}
+            className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 bg-white/15 hover:bg-white/30 border border-white/20 rounded-full flex items-center justify-center transition-colors text-white backdrop-blur-sm"
+            aria-label="Next"
           >
             <ChevronRight size={18} />
           </button>
         </>
       )}
 
-      {/* Dots */}
+      {/* ── Slide dots ── */}
       {slides.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
           {slides.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrent(idx)}
-              className={`rounded-full transition-all duration-300 ${idx === current ? 'w-6 h-2 bg-white' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
+              onClick={() => goTo(idx)}
+              aria-label={`Slide ${idx + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                idx === current ? 'w-6 h-2 bg-white' : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+              }`}
             />
           ))}
         </div>
