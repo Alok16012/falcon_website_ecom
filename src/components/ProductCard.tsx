@@ -49,25 +49,26 @@ export default function ProductCard({ product }: ProductCardProps) {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image container */}
-      <div className="relative overflow-hidden bg-[#F4F7FE] aspect-[4/5]">
-        {/* Badge */}
-        {product.badge && (
-          <div className={`absolute top-3 left-3 z-10 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-full shadow-sm ${
-            product.badge === 'SALE' ? 'bg-red-500 text-white' :
-            product.badge === 'NEW' ? 'bg-[#1E3FA3] text-white' :
-            product.badge === 'BESTSELLER' ? 'bg-amber-500 text-white' :
-            'bg-[#1E3FA3] text-white'
-          }`}>
-            {product.badge}
-          </div>
-        )}
+      <div className="relative bg-[#F5F6F8] aspect-[4/5] flex items-center justify-center overflow-hidden">
 
-        {/* Discount pill — stacked below badge if badge present */}
-        {discount > 0 && (
-          <div className={`absolute ${product.badge ? 'top-10' : 'top-3'} left-3 z-10 bg-green-50 border border-green-200 px-2 py-0.5 text-[10px] font-bold text-green-700 rounded-full`}>
-            -{discount}%
-          </div>
-        )}
+        {/* Badges row — top left */}
+        <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
+          {product.badge && (
+            <span className={`px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-full shadow-sm w-fit ${
+              product.badge === 'SALE' ? 'bg-red-500 text-white' :
+              product.badge === 'NEW' ? 'bg-[#1E3FA3] text-white' :
+              product.badge === 'BESTSELLER' ? 'bg-amber-500 text-white' :
+              'bg-[#1E3FA3] text-white'
+            }`}>
+              {product.badge}
+            </span>
+          )}
+          {discount > 0 && (
+            <span className="bg-green-50 border border-green-200 px-2 py-0.5 text-[10px] font-bold text-green-700 rounded-full w-fit">
+              -{discount}%
+            </span>
+          )}
+        </div>
 
         {/* Wishlist button */}
         <button
@@ -81,16 +82,19 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         </button>
 
-        <Image
-          src={hovered && product.hoverImage ? product.hoverImage : product.image}
-          alt={product.name}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          unoptimized
-        />
+        {/* Product image — object-contain so no black bars */}
+        <div className="relative w-full h-full p-5 transition-transform duration-500 group-hover:scale-105">
+          <Image
+            src={hovered && product.hoverImage ? product.hoverImage : product.image}
+            alt={product.name}
+            fill
+            className="object-contain"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            unoptimized
+          />
+        </div>
 
-        {/* Add to cart overlay */}
+        {/* Add to Cart — slide up on hover */}
         <div className="absolute inset-x-0 bottom-0 px-3 pb-3 sm:opacity-0 sm:translate-y-2 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all duration-200">
           <button
             onClick={handleAddToCart}
