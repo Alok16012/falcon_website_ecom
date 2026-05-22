@@ -77,18 +77,9 @@ export default function ProductForm({ initial, mode }: Props) {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
 
-  // Sync sizePrices rows whenever sizes text changes
-  function handleSizesChange(val: string) {
-    set('sizes', val)
-    const sizeList = val.split(',').map(s => s.trim()).filter(Boolean)
-    setForm(prev => {
-      const updated: Record<string, SizePriceRow> = {}
-      for (const sz of sizeList) {
-        updated[sz] = prev.sizePrices?.[sz] ?? { price: '', mrp: '' }
-      }
-      return { ...prev, sizes: val, sizePrices: updated }
-    })
-  }
+  // Derived lists — drive section visibility + row rendering
+  const sizeList  = form.sizes.split(',').map(s => s.trim()).filter(Boolean)
+  const colorList = form.colors.split(',').map(s => s.trim()).filter(Boolean)
 
   function setSizePrice(size: string, field: 'price' | 'mrp', val: string) {
     setForm(prev => ({
@@ -100,23 +91,9 @@ export default function ProductForm({ initial, mode }: Props) {
     }))
   }
 
-  // Keep colorImages keys in sync when colors text changes
-  function handleColorsChange(val: string) {
-    set('colors', val)
-    const colorList = val.split(',').map(s => s.trim()).filter(Boolean)
-    setForm(prev => {
-      const updated: ColorImagesMap = {}
-      for (const c of colorList) {
-        updated[c] = prev.colorImages?.[c] ?? []
-      }
-      return { ...prev, colors: val, colorImages: updated }
-    })
-  }
-
   function setColorImage(color: string, url: string) {
     setForm(prev => {
       const existing = prev.colorImages?.[color] ?? []
-      // Replace first image (swatch thumbnail); keep rest of gallery intact
       const updated = url ? [url, ...existing.slice(1)] : existing.slice(1)
       return { ...prev, colorImages: { ...prev.colorImages, [color]: updated } }
     })
@@ -317,8 +294,8 @@ export default function ProductForm({ initial, mode }: Props) {
               </div>
             </div>
 
-            {/* Color Swatch Images */}
-            {form.colorImages && Object.keys(form.colorImages).length > 0 && (
+            {/* Color Swatch Images — shows as soon as any colour is entered */}
+            {colorList.length > 0 && (
               <div className="bg-white rounded-xl border border-[#1E3FA3]/30 p-5">
                 <h2 className="text-sm font-bold text-gray-900 mb-1 pb-3 border-b border-gray-100 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#1E3FA3] inline-block" />
@@ -326,11 +303,11 @@ export default function ProductForm({ initial, mode }: Props) {
                 </h2>
                 <p className="text-xs text-gray-400 mb-4">Upload one image per colour — it shows as the thumbnail selector (like Skybags/Safari style).</p>
                 <div className="space-y-4">
-                  {Object.entries(form.colorImages).map(([color, imgs]) => {
-                    const thumb = imgs?.[0] ?? ''
+                  {colorList.map(color => {
+                    const imgs = form.colorImages?.[color] ?? []
+                    const thumb = imgs[0] ?? ''
                     return (
                       <div key={color} className="flex items-center gap-4">
-                        {/* Preview */}
                         <div className="w-14 h-14 rounded-lg border-2 border-gray-200 overflow-hidden bg-gray-50 flex-shrink-0">
                           {thumb
                             ? <img src={thumb} alt={color} className="w-full h-full object-cover" />
@@ -362,7 +339,7 @@ export default function ProductForm({ initial, mode }: Props) {
                   </label>
                   <input
                     value={form.colors}
-                    onChange={e => handleColorsChange(e.target.value)}
+                    onChange={e => set('colors', e.target.value)}
                     className="w-full border border-gray-200 px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3]"
                     placeholder="Black, Navy, Grey"
                   />
@@ -380,15 +357,15 @@ export default function ProductForm({ initial, mode }: Props) {
                   </label>
                   <input
                     value={form.sizes}
-                    onChange={e => handleSizesChange(e.target.value)}
+                    onChange={e => set('sizes', e.target.value)}
                     className="w-full border border-gray-200 px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3]"
                     placeholder='20", 24", 28" (leave blank if N/A)'
                   />
                 </div>
               </div>
             </div>
-            {/* Size-based Pricing */}
-            {form.sizePrices && Object.keys(form.sizePrices).length > 0 && (
+            {/* Size-based Pricing — appears as soon as any size is entered */}
+            {sizeList.length > 0 && (
               <div className="bg-white rounded-xl border border-[#1E3FA3]/30 p-5">
                 <h2 className="text-sm font-bold text-gray-900 mb-1 pb-3 border-b border-gray-100 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#1E3FA3] inline-block" />
@@ -396,40 +373,43 @@ export default function ProductForm({ initial, mode }: Props) {
                 </h2>
                 <p className="text-xs text-gray-400 mb-4">Set sale price &amp; MRP for each size. Leave blank to use the default price above.</p>
                 <div className="space-y-3">
-                  {Object.entries(form.sizePrices).map(([size, sp]) => (
-                    <div key={size} className="flex items-center gap-3">
-                      <span className="text-sm font-bold text-[#1E3FA3] bg-[#EBF0FB] px-3 py-2 rounded-lg min-w-[60px] text-center">
-                        {size}
-                      </span>
-                      <div className="flex-1">
-                        <label className="text-[10px] font-semibold text-gray-500 mb-1 block">Sale Price (₹)</label>
-                        <input
-                          type="number"
-                          min="0"
-                          value={sp.price}
-                          onChange={e => setSizePrice(size, 'price', e.target.value)}
-                          placeholder="e.g. 1499"
-                          className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <label className="text-[10px] font-semibold text-gray-500 mb-1 block">MRP (₹)</label>
-                        <input
-                          type="number"
-                          min="0"
-                          value={sp.mrp}
-                          onChange={e => setSizePrice(size, 'mrp', e.target.value)}
-                          placeholder="e.g. 3999"
-                          className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
-                        />
-                      </div>
-                      {sp.price && sp.mrp && Number(sp.mrp) > Number(sp.price) && (
-                        <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded whitespace-nowrap self-end mb-0.5">
-                          {Math.round(((Number(sp.mrp) - Number(sp.price)) / Number(sp.mrp)) * 100)}% off
+                  {sizeList.map(size => {
+                    const sp = form.sizePrices?.[size] ?? { price: '', mrp: '' }
+                    return (
+                      <div key={size} className="flex items-center gap-3">
+                        <span className="text-sm font-bold text-[#1E3FA3] bg-[#EBF0FB] px-3 py-2 rounded-lg min-w-[60px] text-center">
+                          {size}
                         </span>
-                      )}
-                    </div>
-                  ))}
+                        <div className="flex-1">
+                          <label className="text-[10px] font-semibold text-gray-500 mb-1 block">Sale Price (₹)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={sp.price}
+                            onChange={e => setSizePrice(size, 'price', e.target.value)}
+                            placeholder="e.g. 1499"
+                            className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-[10px] font-semibold text-gray-500 mb-1 block">MRP (₹)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={sp.mrp}
+                            onChange={e => setSizePrice(size, 'mrp', e.target.value)}
+                            placeholder="e.g. 3999"
+                            className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
+                          />
+                        </div>
+                        {sp.price && sp.mrp && Number(sp.mrp) > Number(sp.price) && (
+                          <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded whitespace-nowrap self-end mb-0.5">
+                            {Math.round(((Number(sp.mrp) - Number(sp.price)) / Number(sp.mrp)) * 100)}% off
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
                 <p className="text-[11px] text-gray-400 mt-4 bg-gray-50 px-3 py-2 rounded-lg">
                   💡 The <strong>Default Price</strong> above will be used as fallback if a size has no price set.
