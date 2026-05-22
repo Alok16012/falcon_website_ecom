@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { revalidatePath } from 'next/cache'
 
 function db() {
   return createClient(
@@ -50,6 +51,14 @@ export async function POST(req: NextRequest) {
     const row = toRow({ ...body, id, slug })
     const { error } = await db().from('products').insert(row)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Purge cache for all listing pages
+    revalidatePath('/', 'page')
+    revalidatePath('/collection', 'page')
+    revalidatePath('/backpacks', 'page')
+    revalidatePath('/duffels', 'page')
+    revalidatePath('/luggage', 'page')
+
     return NextResponse.json(toProduct(row), { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Failed to create product' }, { status: 500 })

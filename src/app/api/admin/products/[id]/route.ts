@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { revalidatePath } from 'next/cache'
 
 function db() {
   return createClient(
@@ -47,6 +48,15 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const row = toRow({ ...body, id: params.id })
     const { error } = await db().from('products').update(row).eq('id', params.id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Purge Next.js cache for all pages that show products
+    revalidatePath('/', 'page')
+    revalidatePath('/collection', 'page')
+    revalidatePath('/backpacks', 'page')
+    revalidatePath('/duffels', 'page')
+    revalidatePath('/luggage', 'page')
+    if (row.slug) revalidatePath(`/product/${row.slug}`, 'page')
+
     return NextResponse.json(toProduct({ ...row, id: params.id }))
   } catch {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 })
