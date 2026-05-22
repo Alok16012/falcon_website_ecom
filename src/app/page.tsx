@@ -255,7 +255,7 @@ export default async function HomePage() {
           {/* Grid — 3 cols mobile, 6 cols desktop */}
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2">
             {[
-              { src: '/uploads/luggage/lg-blue-front.jpg',      alt: 'Sky Blue AeroGlide Cabin' },
+              { src: 'https://lkrvsvhfwahpslxplezi.supabase.co/storage/v1/object/public/falcon-images/1777960930173-ll84xb5rnkn.jpeg', alt: 'Sky Blue AeroGlide Cabin' },
               { src: '/uploads/corporate/duffle-city.jpg',       alt: 'Duffel in the city' },
               { src: '/uploads/luggage/lg-rosegold-front.jpg',  alt: 'Rose Gold Trolley' },
               { src: '/uploads/corporate/duffle-studio.jpg',     alt: 'Studio duffel shoot' },
