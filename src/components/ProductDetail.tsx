@@ -124,22 +124,47 @@ export default function ProductDetail({ product, related }: Props) {
             <div className="mb-5">
               <div className="flex items-center justify-between mb-2.5">
                 <span className="text-sm font-semibold">Colour:</span>
-                <span className="text-sm text-gray-600">{selectedColor}</span>
+                <span className="text-sm text-[#1E3FA3] font-medium">{selectedColor}</span>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => { setSelectedColor(color); setActiveImage(0) }}
-                    className={`px-3 py-1.5 text-sm border rounded transition-colors ${
-                      selectedColor === color
-                        ? 'border-[#1E3FA3] bg-[#1E3FA3] text-white'
-                        : 'border-gray-300 text-gray-700 hover:border-[#1E3FA3]'
-                    }`}
-                  >
-                    {color}
-                  </button>
-                ))}
+              <div className="flex flex-wrap gap-2.5">
+                {product.colors.map((color) => {
+                  const thumb = product.colorImages?.[color]?.[0]
+                  return thumb ? (
+                    /* Image swatch — like Skybags */
+                    <button
+                      key={color}
+                      title={color}
+                      onClick={() => { setSelectedColor(color); setActiveImage(0) }}
+                      className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        selectedColor === color
+                          ? 'border-[#1E3FA3] shadow-md scale-105'
+                          : 'border-gray-200 hover:border-[#1E3FA3]/60'
+                      }`}
+                    >
+                      <Image
+                        src={thumb}
+                        alt={color}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                        unoptimized
+                      />
+                    </button>
+                  ) : (
+                    /* Text fallback when no image */
+                    <button
+                      key={color}
+                      onClick={() => { setSelectedColor(color); setActiveImage(0) }}
+                      className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${
+                        selectedColor === color
+                          ? 'border-[#1E3FA3] bg-[#1E3FA3] text-white'
+                          : 'border-gray-300 text-gray-700 hover:border-[#1E3FA3]'
+                      }`}
+                    >
+                      {color}
+                    </button>
+                  )
+                })}
               </div>
             </div>
 

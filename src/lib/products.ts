@@ -38,9 +38,11 @@ const localColorImages: Record<string, Record<string, string[]>> = Object.fromEn
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toProduct(row: any): Product {
-  // color_images JSONB may also carry __size_prices — extract and separate
-  const rawColorImages: Record<string, unknown> =
-    row.color_images ?? localColorImages[row.id] ?? {}
+  // Merge: local colorImages as base, Supabase color_images overrides/extends
+  // (Supabase color_images also carries __size_prices key — extract and separate)
+  const localCI: Record<string, unknown> = localColorImages[row.id] ?? {}
+  const supabaseCI: Record<string, unknown> = row.color_images ?? {}
+  const rawColorImages: Record<string, unknown> = { ...localCI, ...supabaseCI }
   const sizePrices = rawColorImages.__size_prices as Record<string, SizePrice> | undefined
   const colorImages: Record<string, string[]> = Object.fromEntries(
     Object.entries(rawColorImages).filter(([k]) => k !== '__size_prices')

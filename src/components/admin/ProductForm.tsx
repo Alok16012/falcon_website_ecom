@@ -11,6 +11,9 @@ interface SizePriceRow {
   mrp: string
 }
 
+/** colorImages maps colorName → array of image URLs. Admin sets first image = swatch thumbnail */
+type ColorImagesMap = Record<string, string[]>
+
 interface ProductData {
   id?: string
   name: string
@@ -29,6 +32,7 @@ interface ProductData {
   inStock: boolean
   slug?: string
   sizePrices?: Record<string, SizePriceRow>
+  colorImages?: ColorImagesMap
 }
 
 interface Props {
@@ -41,6 +45,7 @@ const defaultData: ProductData = {
   rating: 4.5, reviews: 0, image: '', hoverImage: '',
   description: '', colors: '', sizes: '', features: '', inStock: true,
   sizePrices: {},
+  colorImages: {},
 }
 
 export default function ProductForm({ initial, mode }: Props) {
@@ -54,6 +59,12 @@ export default function ProductForm({ initial, mode }: Props) {
     }
   }
 
+  // Normalise existing colorImages (object or undefined)
+  const initialColorImages: ColorImagesMap =
+    (initial?.colorImages && typeof initial.colorImages === 'object')
+      ? (initial.colorImages as ColorImagesMap)
+      : {}
+
   const [form, setForm] = useState<ProductData>({
     ...defaultData,
     ...initial,
@@ -61,6 +72,7 @@ export default function ProductForm({ initial, mode }: Props) {
     sizes: Array.isArray(initial?.sizes) ? (initial.sizes as string[]).join(', ') : (initial?.sizes ?? ''),
     features: Array.isArray(initial?.features) ? (initial.features as string[]).join('\n') : (initial?.features ?? ''),
     sizePrices: initialSizePrices,
+    colorImages: initialColorImages,
   })
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
@@ -86,6 +98,28 @@ export default function ProductForm({ initial, mode }: Props) {
         [size]: { ...(prev.sizePrices?.[size] ?? { price: '', mrp: '' }), [field]: val },
       },
     }))
+  }
+
+  // Keep colorImages keys in sync when colors text changes
+  function handleColorsChange(val: string) {
+    set('colors', val)
+    const colorList = val.split(',').map(s => s.trim()).filter(Boolean)
+    setForm(prev => {
+      const updated: ColorImagesMap = {}
+      for (const c of colorList) {
+        updated[c] = prev.colorImages?.[c] ?? []
+      }
+      return { ...prev, colors: val, colorImages: updated }
+    })
+  }
+
+  function setColorImage(color: string, url: string) {
+    setForm(prev => {
+      const existing = prev.colorImages?.[color] ?? []
+      // Replace first image (swatch thumbnail); keep rest of gallery intact
+      const updated = url ? [url, ...existing.slice(1)] : existing.slice(1)
+      return { ...prev, colorImages: { ...prev.colorImages, [color]: updated } }
+    })
   }
 
   function set(key: keyof ProductData, val: string | boolean | number) {
@@ -124,6 +158,9 @@ export default function ProductForm({ initial, mode }: Props) {
         hoverImage: form.hoverImage || form.image,
         slug: form.slug || form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
         sizePrices: Object.keys(sizePricesPayload).length ? sizePricesPayload : null,
+        colorImages: form.colorImages && Object.keys(form.colorImages).some(k => (form.colorImages![k]?.length ?? 0) > 0)
+          ? form.colorImages
+          : null,
       }
 
       const url = mode === 'edit' ? `/api/admin/products/${initial?.id}` : '/api/admin/products'
@@ -280,6 +317,41 @@ export default function ProductForm({ initial, mode }: Props) {
               </div>
             </div>
 
+            {/* Color Swatch Images */}
+            {form.colorImages && Object.keys(form.colorImages).length > 0 && (
+              <div className="bg-white rounded-xl border border-[#1E3FA3]/30 p-5">
+                <h2 className="text-sm font-bold text-gray-900 mb-1 pb-3 border-b border-gray-100 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#1E3FA3] inline-block" />
+                  Colour Swatch Images
+                </h2>
+                <p className="text-xs text-gray-400 mb-4">Upload one image per colour — it shows as the thumbnail selector (like Skybags/Safari style).</p>
+                <div className="space-y-4">
+                  {Object.entries(form.colorImages).map(([color, imgs]) => {
+                    const thumb = imgs?.[0] ?? ''
+                    return (
+                      <div key={color} className="flex items-center gap-4">
+                        {/* Preview */}
+                        <div className="w-14 h-14 rounded-lg border-2 border-gray-200 overflow-hidden bg-gray-50 flex-shrink-0">
+                          {thumb
+                            ? <img src={thumb} alt={color} className="w-full h-full object-cover" />
+                            : <span className="flex items-center justify-center h-full text-[10px] text-gray-400 text-center px-1">{color}</span>
+                          }
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs font-semibold text-gray-700 mb-1">{color}</p>
+                          <ImageUpload
+                            label=""
+                            value={thumb}
+                            onChange={url => setColorImage(color, url)}
+                          />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Variants */}
             <div className="bg-white rounded-xl border border-gray-200 p-5">
               <h2 className="text-sm font-bold text-gray-900 mb-4 pb-3 border-b border-gray-100">Variants</h2>
@@ -290,7 +362,7 @@ export default function ProductForm({ initial, mode }: Props) {
                   </label>
                   <input
                     value={form.colors}
-                    onChange={e => set('colors', e.target.value)}
+                    onChange={e => handleColorsChange(e.target.value)}
                     className="w-full border border-gray-200 px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3]"
                     placeholder="Black, Navy, Grey"
                   />
