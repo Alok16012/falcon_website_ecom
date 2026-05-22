@@ -1,6 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 import localProducts from '../../data/products.json'
 
+export interface SizePrice {
+  price: number
+  mrp: number
+}
+
 export interface Product {
   id: string
   slug: string
@@ -19,6 +24,8 @@ export interface Product {
   features: string[]
   inStock: boolean
   colorImages?: Record<string, string[]>
+  /** Per-size pricing — stored inside color_images JSONB as __size_prices key */
+  sizePrices?: Record<string, SizePrice>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +38,14 @@ const localColorImages: Record<string, Record<string, string[]>> = Object.fromEn
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toProduct(row: any): Product {
+  // color_images JSONB may also carry __size_prices — extract and separate
+  const rawColorImages: Record<string, unknown> =
+    row.color_images ?? localColorImages[row.id] ?? {}
+  const sizePrices = rawColorImages.__size_prices as Record<string, SizePrice> | undefined
+  const colorImages: Record<string, string[]> = Object.fromEntries(
+    Object.entries(rawColorImages).filter(([k]) => k !== '__size_prices')
+  ) as Record<string, string[]>
+
   return {
     id: row.id,
     slug: row.slug,
@@ -48,7 +63,8 @@ function toProduct(row: any): Product {
     sizes: row.sizes ?? [],
     features: row.features ?? [],
     inStock: Boolean(row.in_stock),
-    colorImages: row.color_images ?? localColorImages[row.id] ?? undefined,
+    colorImages: Object.keys(colorImages).length ? colorImages : undefined,
+    sizePrices: sizePrices ?? undefined,
   }
 }
 

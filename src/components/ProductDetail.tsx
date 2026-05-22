@@ -19,7 +19,12 @@ export default function ProductDetail({ product, related }: Props) {
   const [activeImage, setActiveImage] = useState(0)
   const [openSection, setOpenSection] = useState<string | null>('description')
 
-  const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100)
+  // Resolve price based on selected size (falls back to product default)
+  const sizePrice = selectedSize && product.sizePrices?.[selectedSize]
+  const activePrice = sizePrice ? sizePrice.price : product.price
+  const activeMrp   = sizePrice ? sizePrice.mrp   : product.mrp
+  const discount = Math.round(((activeMrp - activePrice) / activeMrp) * 100)
+
   const colorImgs = product.colorImages?.[selectedColor]
   const images = colorImgs && colorImgs.length > 0
     ? colorImgs
@@ -104,13 +109,15 @@ export default function ProductDetail({ product, related }: Props) {
               <span className="text-sm text-gray-600">{product.rating} ({product.reviews} reviews)</span>
             </div>
 
-            {/* Price */}
+            {/* Price — updates live when size is selected */}
             <div className="flex items-baseline gap-3 mb-6 pb-6 border-b border-gray-100">
-              <span className="text-3xl font-bold text-[#1E3FA3]">₹{product.price.toLocaleString('en-IN')}</span>
-              <span className="text-lg text-gray-400 line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
-              <span className="text-sm font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded">
-                Save {discount}%
-              </span>
+              <span className="text-3xl font-bold text-[#1E3FA3]">₹{activePrice.toLocaleString('en-IN')}</span>
+              <span className="text-lg text-gray-400 line-through">₹{activeMrp.toLocaleString('en-IN')}</span>
+              {discount > 0 && (
+                <span className="text-sm font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded">
+                  Save {discount}%
+                </span>
+              )}
             </div>
 
             {/* Color selector */}
@@ -144,19 +151,27 @@ export default function ProductDetail({ product, related }: Props) {
                   <span className="text-sm text-gray-600">{selectedSize}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 text-sm border rounded transition-colors ${
-                        selectedSize === size
-                          ? 'border-[#1E3FA3] bg-[#1E3FA3] text-white'
-                          : 'border-gray-300 text-gray-700 hover:border-[#1E3FA3]'
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+                  {product.sizes.map((size) => {
+                    const sp = product.sizePrices?.[size]
+                    return (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`flex flex-col items-center px-4 py-2 text-sm border rounded-lg transition-colors ${
+                          selectedSize === size
+                            ? 'border-[#1E3FA3] bg-[#1E3FA3] text-white'
+                            : 'border-gray-300 text-gray-700 hover:border-[#1E3FA3]'
+                        }`}
+                      >
+                        <span className="font-semibold">{size}</span>
+                        {sp && (
+                          <span className={`text-[10px] mt-0.5 ${selectedSize === size ? 'text-white/80' : 'text-[#1E3FA3]'}`}>
+                            ₹{sp.price.toLocaleString('en-IN')}
+                          </span>
+                        )}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             )}

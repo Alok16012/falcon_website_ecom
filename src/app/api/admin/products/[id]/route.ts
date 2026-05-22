@@ -11,6 +11,14 @@ function db() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toRow(body: any) {
+  // Merge sizePrices back into color_images under __size_prices key
+  const colorImages = body.colorImages ?? null
+  const sizePrices = body.sizePrices && Object.keys(body.sizePrices).length > 0
+    ? body.sizePrices : null
+  const colorImagesStored = sizePrices
+    ? { ...(colorImages ?? {}), __size_prices: sizePrices }
+    : colorImages
+
   return {
     slug: body.slug,
     name: body.name,
@@ -27,7 +35,7 @@ function toRow(body: any) {
     sizes: body.sizes ?? [],
     features: body.features ?? [],
     in_stock: body.inStock ?? true,
-    color_images: body.colorImages ?? null,
+    color_images: colorImagesStored,
   }
 }
 

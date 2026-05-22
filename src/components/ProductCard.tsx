@@ -17,7 +17,14 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [wishlisted, setWishlisted] = useState(false)
   const { addItem } = useCartStore()
 
-  const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100)
+  // If size-based pricing exists, show the lowest price with "From ₹"
+  const sizePriceValues = product.sizePrices ? Object.values(product.sizePrices) : []
+  const lowestSizePrice = sizePriceValues.length
+    ? sizePriceValues.reduce((min, sp) => sp.price < min.price ? sp : min, sizePriceValues[0])
+    : null
+  const displayPrice = lowestSizePrice ? lowestSizePrice.price : product.price
+  const displayMrp   = lowestSizePrice ? lowestSizePrice.mrp   : product.mrp
+  const discount = Math.round(((displayMrp - displayPrice) / displayMrp) * 100)
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault()
@@ -140,15 +147,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline gap-1.5">
             <span className="text-[15px] font-bold text-[#1E3FA3]">
-              ₹{product.price.toLocaleString('en-IN')}
+              {lowestSizePrice ? 'From ' : ''}₹{displayPrice.toLocaleString('en-IN')}
             </span>
             <span className="text-[11px] text-gray-400 line-through">
-              ₹{product.mrp.toLocaleString('en-IN')}
+              ₹{displayMrp.toLocaleString('en-IN')}
             </span>
           </div>
           {discount > 0 && (
             <span className="text-[10px] font-bold text-green-600 hidden sm:block">
-              Save ₹{(product.mrp - product.price).toLocaleString('en-IN')}
+              Save ₹{(displayMrp - displayPrice).toLocaleString('en-IN')}
             </span>
           )}
         </div>

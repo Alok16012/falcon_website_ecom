@@ -6,6 +6,11 @@ import Link from 'next/link'
 import { Save, ArrowLeft, Eye } from 'lucide-react'
 import ImageUpload from './ImageUpload'
 
+interface SizePriceRow {
+  price: string
+  mrp: string
+}
+
 interface ProductData {
   id?: string
   name: string
@@ -23,6 +28,7 @@ interface ProductData {
   features: string
   inStock: boolean
   slug?: string
+  sizePrices?: Record<string, SizePriceRow>
 }
 
 interface Props {
@@ -34,19 +40,53 @@ const defaultData: ProductData = {
   name: '', category: 'backpacks', price: '', mrp: '', badge: '',
   rating: 4.5, reviews: 0, image: '', hoverImage: '',
   description: '', colors: '', sizes: '', features: '', inStock: true,
+  sizePrices: {},
 }
 
 export default function ProductForm({ initial, mode }: Props) {
   const router = useRouter()
+
+  // Convert existing sizePrices (numbers) → string form for inputs
+  const initialSizePrices: Record<string, SizePriceRow> = {}
+  if (initial?.sizePrices) {
+    for (const [sz, sp] of Object.entries(initial.sizePrices as Record<string, { price: number | string; mrp: number | string }>)) {
+      initialSizePrices[sz] = { price: String(sp.price), mrp: String(sp.mrp) }
+    }
+  }
+
   const [form, setForm] = useState<ProductData>({
     ...defaultData,
     ...initial,
     colors: Array.isArray(initial?.colors) ? (initial.colors as string[]).join(', ') : (initial?.colors ?? ''),
     sizes: Array.isArray(initial?.sizes) ? (initial.sizes as string[]).join(', ') : (initial?.sizes ?? ''),
     features: Array.isArray(initial?.features) ? (initial.features as string[]).join('\n') : (initial?.features ?? ''),
+    sizePrices: initialSizePrices,
   })
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+
+  // Sync sizePrices rows whenever sizes text changes
+  function handleSizesChange(val: string) {
+    set('sizes', val)
+    const sizeList = val.split(',').map(s => s.trim()).filter(Boolean)
+    setForm(prev => {
+      const updated: Record<string, SizePriceRow> = {}
+      for (const sz of sizeList) {
+        updated[sz] = prev.sizePrices?.[sz] ?? { price: '', mrp: '' }
+      }
+      return { ...prev, sizes: val, sizePrices: updated }
+    })
+  }
+
+  function setSizePrice(size: string, field: 'price' | 'mrp', val: string) {
+    setForm(prev => ({
+      ...prev,
+      sizePrices: {
+        ...prev.sizePrices,
+        [size]: { ...(prev.sizePrices?.[size] ?? { price: '', mrp: '' }), [field]: val },
+      },
+    }))
+  }
 
   function set(key: keyof ProductData, val: string | boolean | number) {
     setForm(prev => ({ ...prev, [key]: val }))
@@ -61,6 +101,16 @@ export default function ProductForm({ initial, mode }: Props) {
     e.preventDefault()
     setSaving(true)
     try {
+      // Build sizePrices payload — convert string inputs to numbers, skip empty
+      const sizePricesPayload: Record<string, { price: number; mrp: number }> = {}
+      if (form.sizePrices) {
+        for (const [sz, sp] of Object.entries(form.sizePrices)) {
+          if (sp.price && sp.mrp) {
+            sizePricesPayload[sz] = { price: Number(sp.price), mrp: Number(sp.mrp) }
+          }
+        }
+      }
+
       const payload = {
         ...form,
         price: Number(form.price),
@@ -73,6 +123,7 @@ export default function ProductForm({ initial, mode }: Props) {
         badge: form.badge || null,
         hoverImage: form.hoverImage || form.image,
         slug: form.slug || form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+        sizePrices: Object.keys(sizePricesPayload).length ? sizePricesPayload : null,
       }
 
       const url = mode === 'edit' ? `/api/admin/products/${initial?.id}` : '/api/admin/products'
@@ -257,13 +308,62 @@ export default function ProductForm({ initial, mode }: Props) {
                   </label>
                   <input
                     value={form.sizes}
-                    onChange={e => set('sizes', e.target.value)}
+                    onChange={e => handleSizesChange(e.target.value)}
                     className="w-full border border-gray-200 px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3]"
-                    placeholder="20&quot;, 24&quot;, 28&quot; (leave blank if N/A)"
+                    placeholder='20", 24", 28" (leave blank if N/A)'
                   />
                 </div>
               </div>
             </div>
+            {/* Size-based Pricing */}
+            {form.sizePrices && Object.keys(form.sizePrices).length > 0 && (
+              <div className="bg-white rounded-xl border border-[#1E3FA3]/30 p-5">
+                <h2 className="text-sm font-bold text-gray-900 mb-1 pb-3 border-b border-gray-100 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#1E3FA3] inline-block" />
+                  Size-wise Pricing
+                </h2>
+                <p className="text-xs text-gray-400 mb-4">Set sale price &amp; MRP for each size. Leave blank to use the default price above.</p>
+                <div className="space-y-3">
+                  {Object.entries(form.sizePrices).map(([size, sp]) => (
+                    <div key={size} className="flex items-center gap-3">
+                      <span className="text-sm font-bold text-[#1E3FA3] bg-[#EBF0FB] px-3 py-2 rounded-lg min-w-[60px] text-center">
+                        {size}
+                      </span>
+                      <div className="flex-1">
+                        <label className="text-[10px] font-semibold text-gray-500 mb-1 block">Sale Price (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          value={sp.price}
+                          onChange={e => setSizePrice(size, 'price', e.target.value)}
+                          placeholder="e.g. 1499"
+                          className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <label className="text-[10px] font-semibold text-gray-500 mb-1 block">MRP (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          value={sp.mrp}
+                          onChange={e => setSizePrice(size, 'mrp', e.target.value)}
+                          placeholder="e.g. 3999"
+                          className="w-full border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:border-[#1E3FA3] focus:ring-2 focus:ring-[#1E3FA3]/10"
+                        />
+                      </div>
+                      {sp.price && sp.mrp && Number(sp.mrp) > Number(sp.price) && (
+                        <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded whitespace-nowrap self-end mb-0.5">
+                          {Math.round(((Number(sp.mrp) - Number(sp.price)) / Number(sp.mrp)) * 100)}% off
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[11px] text-gray-400 mt-4 bg-gray-50 px-3 py-2 rounded-lg">
+                  💡 The <strong>Default Price</strong> above will be used as fallback if a size has no price set.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Side panel */}
