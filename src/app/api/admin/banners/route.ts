@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { revalidatePath } from 'next/cache'
 
 function db() {
   return createClient(
@@ -24,8 +25,10 @@ function toBanner(row: any) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toRow(banner: any, index: number) {
+  // Use existing string id if it looks like a plain number, otherwise use index+1
+  const numericId = parseInt(banner.id)
   return {
-    id: parseInt(banner.id) || (index + 1),
+    id: String(!isNaN(numericId) ? numericId : index + 1),
     accent: banner.accent ?? '',
     headline: banner.headline ?? '',
     subheadline: banner.subheadline ?? '',
@@ -39,7 +42,7 @@ function toRow(banner: any, index: number) {
 
 export async function GET() {
   const { data, error } = await db().from('banners').select('*').order('sort_order')
-  if (error) return NextResponse.json([], { status: 200 })
+  if (error) return NextResponse.json([])
   return NextResponse.json((data ?? []).map(toBanner))
 }
 
@@ -47,10 +50,15 @@ export async function PUT(req: NextRequest) {
   try {
     const body = await req.json()
     const rows = body.map(toRow)
-    // Delete all and reinsert to handle order + deletions
-    await db().from('banners').delete().neq('id', 0)
+
+    // Delete all existing rows then re-insert (handles deletions + reordering)
+    await db().from('banners').delete().gte('sort_order', 0)
     const { error } = await db().from('banners').insert(rows)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // Bust the homepage cache so the new banner shows immediately
+    revalidatePath('/', 'page')
+
     return NextResponse.json(body)
   } catch {
     return NextResponse.json({ error: 'Failed to update banners' }, { status: 500 })
