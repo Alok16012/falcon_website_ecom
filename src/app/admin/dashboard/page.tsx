@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Package, Image as ImageIcon, TrendingUp, Tag, Plus, ArrowRight } from 'lucide-react'
+import { Package, Image as ImageIcon, TrendingUp, Tag, Plus, ArrowRight, Inbox } from 'lucide-react'
 
 interface Product {
   id: string
@@ -42,24 +42,36 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {[
-          { label: 'Total Products', value: loading ? '...' : totalProducts, icon: Package, color: 'bg-[#1E3FA3]', sub: 'across all categories' },
-          { label: 'On Sale', value: loading ? '...' : onSale, icon: Tag, color: 'bg-red-500', sub: 'products with SALE badge' },
-          { label: 'Avg Discount', value: loading ? '...' : `${avgDiscount}%`, icon: TrendingUp, color: 'bg-green-600', sub: 'off MRP across all' },
-          { label: 'Hero Banners', value: '3', icon: ImageIcon, color: 'bg-purple-600', sub: 'active slides' },
-        ].map(({ label, value, icon: Icon, color, sub }) => (
-          <div key={label} className="bg-white rounded-xl border border-gray-200 p-5">
-            <div className="flex items-center justify-between mb-3">
-              <div className={`w-9 h-9 rounded-lg ${color} flex items-center justify-center`}>
-                <Icon size={17} className="text-white" />
+          { label: 'Total Products', value: loading ? '...' : totalProducts, icon: Package, color: 'bg-[#1E3FA3]', sub: 'across all categories', href: undefined },
+          { label: 'On Sale', value: loading ? '...' : onSale, icon: Tag, color: 'bg-red-500', sub: 'products with SALE badge', href: undefined },
+          { label: 'Avg Discount', value: loading ? '...' : `${avgDiscount}%`, icon: TrendingUp, color: 'bg-green-600', sub: 'off MRP across all', href: undefined },
+          { label: 'Hero Banners', value: '3', icon: ImageIcon, color: 'bg-purple-600', sub: 'active slides', href: undefined },
+          { label: 'Corp. Leads', value: '—', icon: Inbox, color: 'bg-amber-500', sub: 'enquiry submissions', href: '/admin/leads' },
+        ].map(({ label, value, icon: Icon, color, sub, href }) => {
+          const cardContent = (
+            <>
+              <div className="flex items-center justify-between mb-3">
+                <div className={`w-9 h-9 rounded-lg ${color} flex items-center justify-center`}>
+                  <Icon size={17} className="text-white" />
+                </div>
               </div>
+              <p className="text-2xl font-bold text-gray-900">{value}</p>
+              <p className="text-xs font-semibold text-gray-700 mt-0.5">{label}</p>
+              <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>
+            </>
+          )
+          return href ? (
+            <Link key={label} href={href} className="bg-white rounded-xl border border-gray-200 p-5 block hover:shadow-sm transition-shadow">
+              {cardContent}
+            </Link>
+          ) : (
+            <div key={label} className="bg-white rounded-xl border border-gray-200 p-5">
+              {cardContent}
             </div>
-            <p className="text-2xl font-bold text-gray-900">{value}</p>
-            <p className="text-xs font-semibold text-gray-700 mt-0.5">{label}</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Category breakdown */}
@@ -96,6 +108,7 @@ export default function AdminDashboard() {
               { label: 'Add New Product', href: '/admin/products/new', icon: Plus, color: 'text-[#1E3FA3] bg-[#EBF0FB]' },
               { label: 'Manage All Products', href: '/admin/products', icon: Package, color: 'text-purple-600 bg-purple-50' },
               { label: 'Edit Hero Banners', href: '/admin/banners', icon: ImageIcon, color: 'text-green-600 bg-green-50' },
+              { label: 'View Corporate Leads', href: '/admin/leads', icon: Inbox, color: 'text-amber-600 bg-amber-50' },
               { label: 'View Store', href: '/', icon: ArrowRight, color: 'text-gray-600 bg-gray-100' },
             ].map(({ label, href, icon: Icon, color }) => (
               <Link

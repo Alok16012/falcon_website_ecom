@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import ContactForm from '@/components/ContactForm'
+import CorporateEnquiryForm from '@/components/CorporateEnquiryForm'
 
 export const metadata = { title: 'Corporate Gifting — Falcon Plus Bags' }
 
@@ -378,6 +379,20 @@ export default function CorporateGiftingPage() {
               <p className="text-xs text-gray-400 mb-5">Tell us your requirements — we&apos;ll respond within 24 hours.</p>
               <ContactForm />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENQUIRY FORM ── */}
+      <section id="enquiry-form" className="py-16 bg-[#F8F9FE]">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#1E3FA3] mb-2 block">Get in Touch</span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Send Us an Enquiry</h2>
+            <p className="text-gray-500 text-sm mt-2">We respond within 24 hours with a custom quote for your requirements.</p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-6 sm:p-8">
+            <CorporateEnquiryForm />
           </div>
         </div>
       </section>
