@@ -128,7 +128,7 @@ export default function CorporateGiftingPage() {
             <div className="relative hidden lg:block">
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-white/10">
                 <Image
-                  src="/uploads/corporate/bag-yellow.jpg"
+                  src="/uploads/corporate/trolley-podium.jpg"
                   alt="Corporate gifting kits"
                   fill className="object-cover opacity-90"
                   sizes="50vw"
