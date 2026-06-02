@@ -336,11 +336,11 @@ export default function CorporateGiftingPage() {
                 ))}
               </ul>
             </div>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#EBF0FB]">
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#EBF0FB]">
               <Image
                 src="/uploads/corporate/trolley-white.jpg"
                 alt="Falcon Plus corporate gifting"
-                fill className="object-cover"
+                fill className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
@@ -362,8 +362,8 @@ export default function CorporateGiftingPage() {
               </p>
               <div className="space-y-4">
                 {[
-                  { icon: '📞', label: '+91 12345 67890' },
-                  { icon: '✉️', label: 'corporate@falconplus.in' },
+                  { icon: '📞', label: '+91 80807 03838' },
+                  { icon: '✉️', label: 'falconplus100@gmail.com' },
                   { icon: '🌐', label: 'www.falconplus.in' },
                 ].map(({ icon, label }) => (
                   <div key={label} className="flex items-center gap-3 text-white/80 text-sm">

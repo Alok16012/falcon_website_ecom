@@ -25,31 +25,48 @@ export default async function HomePage() {
             <p className="text-gray-500 text-sm">Find the perfect bag for every occasion</p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/${cat.slug}`}
-                className="group relative overflow-hidden rounded-xl aspect-[4/5]"
-                style={{ background: 'linear-gradient(135deg, #0D1A5C, #1E3FA3)' }}
-              >
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover opacity-50 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500"
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1A5C]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-white font-bold text-base mb-0.5">{cat.name}</h3>
-                  <p className="text-white/70 text-xs mb-3">{cat.description}</p>
-                  <span className="text-xs text-white border-b border-white/50 pb-0.5 group-hover:border-white transition-colors">
-                    Explore →
-                  </span>
-                </div>
-              </Link>
-            ))}
+            {categories.map((cat) => {
+              if ((cat as { comingSoon?: boolean }).comingSoon) {
+                return (
+                  <div
+                    key={cat.slug}
+                    className="relative overflow-hidden rounded-xl aspect-[4/5] flex flex-col items-center justify-center"
+                    style={{ background: 'linear-gradient(135deg, #0D1A5C, #1E3FA3)' }}
+                  >
+                    <div className="text-center px-4">
+                      <span className="inline-block text-xs font-semibold tracking-widest uppercase text-white/60 border border-white/30 rounded-full px-3 py-1 mb-4">Coming Soon</span>
+                      <h3 className="text-white font-bold text-base mb-0.5">{cat.name}</h3>
+                      <p className="text-white/70 text-xs">{cat.description}</p>
+                    </div>
+                  </div>
+                )
+              }
+              return (
+                <Link
+                  key={cat.slug}
+                  href={`/${cat.slug}`}
+                  className="group relative overflow-hidden rounded-xl aspect-[4/5]"
+                  style={{ background: 'linear-gradient(135deg, #0D1A5C, #1E3FA3)' }}
+                >
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    className="object-cover opacity-50 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D1A5C]/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-white font-bold text-base mb-0.5">{cat.name}</h3>
+                    <p className="text-white/70 text-xs mb-3">{cat.description}</p>
+                    <span className="text-xs text-white border-b border-white/50 pb-0.5 group-hover:border-white transition-colors">
+                      Explore →
+                    </span>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -155,21 +172,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Trending Backpacks */}
+      {/* Instagram Reels */}
       <section className="py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Trending Backpacks</h2>
-              <p className="text-gray-500 text-sm">Most loved by our customers</p>
-            </div>
-            <Link href="/backpacks" className="text-sm font-semibold text-[#1E3FA3] border-b border-[#1E3FA3] pb-0.5 hover:text-[#162D80] hover:border-[#162D80] transition-colors hidden sm:block">
-              View All →
-            </Link>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">As Seen on Instagram</h2>
+            <p className="text-gray-500 text-sm">Follow us <a href="https://www.instagram.com/falconplusbags/" target="_blank" rel="noopener noreferrer" className="text-[#1E3FA3] font-medium hover:underline">@falconplusbags</a></p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
-            {featured.filter((p: { category: string }) => p.category === 'backpacks').slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-items-center">
+            {[
+              { code: 'DPD4nzuiDeg' },
+              { code: 'DOvinqdCP6B' },
+              { code: 'DLrV30_RlO8' },
+            ].map(({ code }) => (
+              <div key={code} className="w-full max-w-[340px] rounded-xl overflow-hidden shadow-md">
+                <iframe
+                  src={`https://www.instagram.com/reel/${code}/embed/`}
+                  width="340"
+                  height="480"
+                  style={{ border: 'none', overflow: 'hidden' }}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  className="w-full"
+                />
+              </div>
             ))}
           </div>
         </div>

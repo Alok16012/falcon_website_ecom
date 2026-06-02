@@ -72,7 +72,7 @@ export default function ProductDetail({ product, related }: Props) {
                 src={images[activeImage]}
                 alt={product.name}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
                 unoptimized
@@ -207,6 +207,8 @@ export default function ProductDetail({ product, related }: Props) {
                 product={product}
                 selectedColor={selectedColor}
                 selectedSize={selectedSize}
+                activePrice={activePrice}
+                activeMrp={activeMrp}
                 className="w-full rounded py-4"
               />
             </div>

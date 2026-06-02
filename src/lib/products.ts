@@ -111,13 +111,6 @@ export async function getRelatedProducts(product: Product, limit = 4): Promise<P
 
 export const categories = [
   {
-    name: 'Backpacks',
-    slug: 'backpacks',
-    description: 'From daily commuters to weekend explorers',
-    image: '/uploads/1777888476262-plvuu17mw2p.webp',
-    count: 6,
-  },
-  {
     name: 'Duffel Bags',
     slug: 'duffels',
     description: 'Gym, travel, and everything in between',
@@ -137,5 +130,13 @@ export const categories = [
     description: 'Bespoke gifting solutions for your team',
     image: '/uploads/corporate/trolley-podium.jpg',
     count: 0,
+  },
+  {
+    name: 'Backpacks',
+    slug: 'backpacks',
+    description: 'From daily commuters to weekend explorers',
+    image: '',
+    count: 0,
+    comingSoon: true,
   },
 ]

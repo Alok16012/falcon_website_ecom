@@ -33,8 +33,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       id: product.id,
       slug: product.slug,
       name: product.name,
-      price: product.price,
-      mrp: product.mrp,
+      price: displayPrice,
+      mrp: displayMrp,
       image: product.image,
       color: product.colors[0],
     })

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, ShoppingBag, User, Menu, X, ChevronDown } from 'lucide-react'
 import { useCartStore } from '@/lib/cart-store'
+import { supabase } from '@/lib/supabase-client'
 import AnnouncementBar from './AnnouncementBar'
 
 const navItems = [
@@ -12,6 +13,8 @@ const navItems = [
     href: '/duffels',
     dropdown: [
       { label: 'Neo Duffel Trolley', href: '/product/neo-duffel-trolley' },
+      { label: 'Jakat Duffel Trolley', href: '/product/jakat-duffel-trolley' },
+      { label: 'Supreme Duffel', href: '/product/supreme-duffel' },
       { label: 'View All Duffel Bags', href: '/duffels' },
     ],
   },
@@ -19,10 +22,10 @@ const navItems = [
     label: 'Backpacks',
     href: '/backpacks',
     dropdown: [
-      { label: 'City Commuter Pro', href: '/backpacks' },
-      { label: 'TechGuard Laptop Pack', href: '/backpacks' },
-      { label: 'Explorer Weekend 45L', href: '/backpacks' },
-      { label: 'HikePro Adventure 55L', href: '/backpacks' },
+      { label: 'City Commuter Pro', href: '/backpacks', comingSoon: true },
+      { label: 'TechGuard Laptop Pack', href: '/backpacks', comingSoon: true },
+      { label: 'Explorer Weekend 45L', href: '/backpacks', comingSoon: true },
+      { label: 'HikePro Adventure 55L', href: '/backpacks', comingSoon: true },
     ],
   },
   {
@@ -30,7 +33,6 @@ const navItems = [
     href: '/luggage',
     dropdown: [
       { label: 'Defender 20"', href: '/product/defender' },
-      { label: 'Defender 22"', href: '/product/defender' },
       { label: 'Defender 24"', href: '/product/defender' },
       { label: 'View All Luggage', href: '/luggage' },
     ],
@@ -45,6 +47,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   const { toggleCart, totalItems } = useCartStore()
   const count = totalItems()
 
@@ -52,6 +55,18 @@ export default function Header() {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setLoggedIn(!!session)
+    })
+    // React to auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setLoggedIn(!!session)
+    })
+    return () => subscription.unsubscribe()
   }, [])
 
   return (
@@ -130,15 +145,25 @@ export default function Header() {
                   </Link>
 
                   {item.dropdown && activeDropdown === item.label && (
-                    <div className="absolute top-full left-0 bg-white border border-gray-200 shadow-lg rounded-lg py-2 min-w-[190px] z-50">
+                    <div className="absolute top-full left-0 bg-white border border-gray-200 shadow-lg rounded-lg py-2 min-w-[210px] z-50">
                       {item.dropdown.map((sub) => (
-                        <Link
-                          key={sub.label}
-                          href={sub.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EBF0FB] hover:text-[#1E3FA3] transition-colors"
-                        >
-                          {sub.label}
-                        </Link>
+                        sub.comingSoon ? (
+                          <div
+                            key={sub.label}
+                            className="flex items-center justify-between px-4 py-2 text-sm text-gray-400 cursor-default"
+                          >
+                            <span>{sub.label}</span>
+                            <span className="text-[10px] font-semibold tracking-wide uppercase bg-gray-100 text-gray-400 rounded px-1.5 py-0.5 ml-2">Soon</span>
+                          </div>
+                        ) : (
+                          <Link
+                            key={sub.label}
+                            href={sub.href}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EBF0FB] hover:text-[#1E3FA3] transition-colors"
+                          >
+                            {sub.label}
+                          </Link>
+                        )
                       ))}
                     </div>
                   )}
@@ -157,10 +182,14 @@ export default function Header() {
               </button>
               <Link
                 href="/account"
-                className="p-2 hover:bg-[#EBF0FB] rounded-full transition-colors text-gray-700 flex"
+                className="p-2 hover:bg-[#EBF0FB] rounded-full transition-colors flex"
                 aria-label="Account"
               >
-                <User size={20} />
+                <User
+                  size={20}
+                  className={loggedIn ? 'text-[#1E3FA3]' : 'text-gray-700'}
+                  fill={loggedIn ? '#1E3FA3' : 'none'}
+                />
               </Link>
               <button
                 onClick={toggleCart}

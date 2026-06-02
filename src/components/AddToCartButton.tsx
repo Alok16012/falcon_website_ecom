@@ -9,10 +9,12 @@ interface Props {
   product: Product
   selectedColor: string
   selectedSize?: string
+  activePrice?: number
+  activeMrp?: number
   className?: string
 }
 
-export default function AddToCartButton({ product, selectedColor, selectedSize, className }: Props) {
+export default function AddToCartButton({ product, selectedColor, selectedSize, activePrice, activeMrp, className }: Props) {
   const [state, setState] = useState<'idle' | 'adding' | 'added'>('idle')
   const { addItem } = useCartStore()
 
@@ -22,8 +24,8 @@ export default function AddToCartButton({ product, selectedColor, selectedSize, 
       id: `${product.id}-${selectedColor}-${selectedSize ?? ''}`,
       slug: product.slug,
       name: product.name,
-      price: product.price,
-      mrp: product.mrp,
+      price: activePrice ?? product.price,
+      mrp: activeMrp ?? product.mrp,
       image: product.image,
       color: selectedColor,
       size: selectedSize,
