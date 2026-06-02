@@ -65,13 +65,13 @@ const whenCards = [
     icon: '🏆',
     title: 'Employee Rewards',
     desc: 'Recognise milestones, celebrate achievements and build a culture of appreciation.',
-    image: '/uploads/corporate/bag-yellow.jpg',
+    image: '/uploads/duffels/supreme-red-4.jpg',
   },
   {
     icon: '🎁',
     title: 'Festive Gifting',
     desc: 'Delight clients and partners during Diwali, New Year and every special occasion.',
-    image: '/uploads/corporate/bag-blue.jpg',
+    image: '/uploads/duffels/jakat-blue-1.jpg',
   },
 ]
 
