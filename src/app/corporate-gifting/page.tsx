@@ -46,32 +46,32 @@ const whenCards = [
     icon: '🎤',
     title: 'Conferences',
     desc: 'Leave a lasting impression on participants and strengthen networking with premium branded gifts.',
-    image: '/uploads/corporate/trolley-podium.jpg',
+    image: '/uploads/corporate/bag-blue.jpg',
     featured: true,
   },
   {
     icon: '📣',
     title: 'Marketing Events',
     desc: 'Drive brand visibility with memorable takeaways your audience will use long after the event.',
-    image: '/uploads/corporate/duffle-city.jpg',
+    image: '/uploads/corporate/bag-yellow.jpg',
   },
   {
     icon: '🏛️',
     title: 'Exhibitions',
     desc: "Enhance your booth's appeal and engage visitors with gifts that make your brand unforgettable.",
-    image: '/uploads/corporate/duffle-studio.jpg',
+    image: '/uploads/corporate/bag-black.jpg',
   },
   {
     icon: '🏆',
     title: 'Employee Rewards',
     desc: 'Recognise milestones, celebrate achievements and build a culture of appreciation.',
-    image: '/uploads/corporate/trolley-white.jpg',
+    image: '/uploads/corporate/bag-yellow.jpg',
   },
   {
     icon: '🎁',
     title: 'Festive Gifting',
     desc: 'Delight clients and partners during Diwali, New Year and every special occasion.',
-    image: '/uploads/corporate/duffle-open.jpg',
+    image: '/uploads/corporate/bag-blue.jpg',
   },
 ]
 
@@ -128,7 +128,7 @@ export default function CorporateGiftingPage() {
             <div className="relative hidden lg:block">
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-white/10">
                 <Image
-                  src="/uploads/corporate/trolley-podium.jpg"
+                  src="/uploads/corporate/bag-yellow.jpg"
                   alt="Corporate gifting kits"
                   fill className="object-cover opacity-90"
                   sizes="50vw"
@@ -339,7 +339,7 @@ export default function CorporateGiftingPage() {
             </div>
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#EBF0FB]">
               <Image
-                src="/uploads/corporate/trolley-white.jpg"
+                src="/uploads/corporate/bag-black.jpg"
                 alt="Falcon Plus corporate gifting"
                 fill className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
