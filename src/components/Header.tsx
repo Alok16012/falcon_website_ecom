@@ -44,6 +44,7 @@ const navItems: NavItem[] = [
     label: 'Luggage',
     href: '/luggage',
     dropdown: [
+      { label: 'Tokyo Trolley', href: '/product/tokyo-trolley' },
       { label: 'Defender 20"', href: '/product/defender' },
       { label: 'Defender 24"', href: '/product/defender' },
       { label: 'View All Luggage', href: '/luggage' },
