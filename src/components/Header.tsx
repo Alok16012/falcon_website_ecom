@@ -7,7 +7,19 @@ import { useCartStore } from '@/lib/cart-store'
 import { supabase } from '@/lib/supabase-client'
 import AnnouncementBar from './AnnouncementBar'
 
-const navItems = [
+interface NavSubItem {
+  label: string
+  href: string
+  comingSoon?: boolean
+}
+
+interface NavItem {
+  label: string
+  href: string
+  dropdown?: NavSubItem[]
+}
+
+const navItems: NavItem[] = [
   {
     label: 'Duffel Bags',
     href: '/duffels',
