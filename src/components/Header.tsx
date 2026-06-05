@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Search, ShoppingBag, User, Menu, X, ChevronDown } from 'lucide-react'
 import { useCartStore } from '@/lib/cart-store'
 import { supabase } from '@/lib/supabase-client'
@@ -116,28 +117,16 @@ export default function Header() {
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
-            {/* Logo — FALCON® Plus wordmark */}
-            <Link href="/" className="flex items-center gap-0 flex-shrink-0">
-              <div className="flex items-baseline gap-0">
-                <span
-                  className="text-[22px] font-black tracking-tight italic leading-none"
-                  style={{ color: '#1E3FA3', fontStyle: 'italic', letterSpacing: '-0.02em' }}
-                >
-                  FALCON
-                </span>
-                <sup
-                  className="text-[10px] font-bold"
-                  style={{ color: '#1E3FA3', marginLeft: '1px', verticalAlign: 'super', fontSize: '9px' }}
-                >
-                  ®
-                </sup>
-                <span
-                  className="text-[13px] font-bold italic ml-1"
-                  style={{ color: '#162D80' }}
-                >
-                  Plus
-                </span>
-              </div>
+            {/* Logo — FALCON® Plus */}
+            <Link href="/" className="flex items-center flex-shrink-0">
+              <Image
+                src="/falcon-logo.png"
+                alt="Falcon Plus"
+                width={150}
+                height={50}
+                priority
+                className="h-9 w-auto sm:h-10"
+              />
             </Link>
 
             {/* Desktop nav */}
