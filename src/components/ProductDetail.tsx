@@ -50,43 +50,62 @@ export default function ProductDetail({ product, related }: Props) {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
 
           {/* Images */}
-          <div className="flex gap-4">
-            {/* Thumbnails */}
-            <div className="hidden sm:flex flex-col gap-3 w-20 flex-shrink-0">
-              {images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImage(idx)}
-                  className={`relative aspect-square overflow-hidden rounded border-2 transition-colors ${
-                    activeImage === idx ? 'border-[#1E3FA3]' : 'border-transparent'
-                  }`}
-                >
-                  <Image src={img} alt="" fill className="object-cover" sizes="80px" unoptimized />
-                </button>
-              ))}
+          <div>
+            <div className="flex gap-4">
+              {/* Thumbnails — desktop (vertical) */}
+              <div className="hidden sm:flex flex-col gap-3 w-20 flex-shrink-0">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImage(idx)}
+                    className={`relative aspect-square overflow-hidden rounded border-2 transition-colors ${
+                      activeImage === idx ? 'border-[#1E3FA3]' : 'border-transparent'
+                    }`}
+                  >
+                    <Image src={img} alt="" fill className="object-cover" sizes="80px" unoptimized />
+                  </button>
+                ))}
+              </div>
+
+              {/* Main image */}
+              <div className="flex-1 relative aspect-[4/5] overflow-hidden rounded-xl bg-gray-50">
+                <Image
+                  src={images[activeImage]}
+                  alt={product.name}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                  unoptimized
+                />
+                {product.badge && (
+                  <div className={`absolute top-4 left-4 px-2.5 py-1 text-xs font-bold tracking-wider rounded ${
+                    product.badge === 'SALE' ? 'bg-red-600 text-white' :
+                    product.badge === 'NEW' ? 'bg-[#1E3FA3] text-white' :
+                    'bg-amber-500 text-white'
+                  }`}>
+                    {product.badge}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Main image */}
-            <div className="flex-1 relative aspect-[4/5] overflow-hidden rounded-xl bg-gray-50">
-              <Image
-                src={images[activeImage]}
-                alt={product.name}
-                fill
-                className="object-contain"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-                unoptimized
-              />
-              {product.badge && (
-                <div className={`absolute top-4 left-4 px-2.5 py-1 text-xs font-bold tracking-wider rounded ${
-                  product.badge === 'SALE' ? 'bg-red-600 text-white' :
-                  product.badge === 'NEW' ? 'bg-[#1E3FA3] text-white' :
-                  'bg-amber-500 text-white'
-                }`}>
-                  {product.badge}
-                </div>
-              )}
-            </div>
+            {/* Thumbnails — mobile (horizontal scroll) */}
+            {images.length > 1 && (
+              <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-1 -mx-1 px-1">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImage(idx)}
+                    className={`relative w-16 h-16 flex-shrink-0 overflow-hidden rounded border-2 transition-colors ${
+                      activeImage === idx ? 'border-[#1E3FA3]' : 'border-gray-200'
+                    }`}
+                  >
+                    <Image src={img} alt="" fill className="object-cover" sizes="64px" unoptimized />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Info */}
