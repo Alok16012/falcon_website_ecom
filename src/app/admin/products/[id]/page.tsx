@@ -16,6 +16,17 @@ async function getProduct(id: string) {
 
     if (error || !data) return null
 
+    // color_images carries both the per-colour image map and a __size_prices key.
+    // Split them back apart so the form receives colorImages + sizePrices separately.
+    const rawColorImages: Record<string, unknown> = data.color_images ?? {}
+    // Runtime values are numbers; ProductForm coerces them to strings via String().
+    const sizePrices = (rawColorImages.__size_prices ?? undefined) as
+      | Record<string, { price: string; mrp: string }>
+      | undefined
+    const colorImages = Object.fromEntries(
+      Object.entries(rawColorImages).filter(([k]) => k !== '__size_prices')
+    ) as Record<string, string[]>
+
     // Normalise DB row → form shape
     return {
       id: data.id,
@@ -34,6 +45,8 @@ async function getProduct(id: string) {
       sizes: Array.isArray(data.sizes) ? data.sizes : [],
       features: Array.isArray(data.features) ? data.features : [],
       inStock: data.in_stock ?? true,
+      colorImages,
+      sizePrices,
     }
   } catch {
     return null
