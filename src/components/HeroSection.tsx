@@ -55,7 +55,7 @@ export default function HeroSection() {
   const [animKey, setAnimKey] = useState(0)
 
   useEffect(() => {
-    fetch('/api/admin/banners')
+    fetch('/api/admin/banners', { cache: 'no-store' })
       .then(r => r.json())
       .then((data: Banner[]) => {
         const active = data.filter(b => b.active)
