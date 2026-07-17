@@ -121,7 +121,7 @@ export default function AdminBanners() {
       <div className="bg-[#EBF0FB] border border-blue-200 rounded-xl px-4 py-3 mb-6 flex items-center gap-3 text-sm">
         <span className="text-[#1E3FA3] text-xl">ℹ</span>
         <p className="text-[#1E3FA3]">
-          <span className="font-bold">{banners.filter(b => b.active).length} of {banners.length}</span> slides are active. Upload an image to show it on the right side of the banner. Click <strong>Save All</strong> when done.
+          <span className="font-bold">{banners.filter(b => b.active).length} of {banners.length}</span> slides are active. The uploaded photo becomes the full background of the slide. Click <strong>Save All</strong> when done.
         </p>
       </div>
 
@@ -230,8 +230,8 @@ export default function AdminBanners() {
                 {/* Image upload */}
                 <div>
                   <ImageUpload
-                    label="Banner Image"
-                    hint="(shown on right side of slide)"
+                    label="Background Image"
+                    hint="(full slide background on homepage)"
                     value={banner.image}
                     onChange={url => updateBanner(banner.id, 'image', url)}
                   />
@@ -241,10 +241,16 @@ export default function AdminBanners() {
               {/* Live preview */}
               {preview === idx && (
                 <div
-                  className="mt-5 rounded-xl overflow-hidden"
+                  className="mt-5 rounded-xl overflow-hidden relative"
                   style={{ background: 'linear-gradient(135deg, #0D1A5C 0%, #1E3FA3 60%, #2B50C4 100%)' }}
                 >
-                  <div className="flex items-center px-8 py-10 gap-8">
+                  {/* Same rendering as the homepage hero: photo is the full background */}
+                  {banner.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={banner.image} alt="banner" className="absolute inset-0 w-full h-full object-cover" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0D1A5C]/90 via-[#0D1A5C]/50 to-transparent" />
+                  <div className="relative flex items-center px-8 py-10">
                     <div className="flex-1 min-w-0">
                       <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-3 block">
                         ——— {banner.accent || 'Accent Tag'}
@@ -259,12 +265,6 @@ export default function AdminBanners() {
                         {banner.cta || 'Shop Now'}
                       </span>
                     </div>
-                    {banner.image && (
-                      <div className="hidden sm:block w-36 h-36 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={banner.image} alt="banner" className="w-full h-full object-cover" />
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
