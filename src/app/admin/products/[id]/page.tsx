@@ -1,12 +1,23 @@
 import ProductForm from '@/components/admin/ProductForm'
 import { createClient } from '@supabase/supabase-js'
 
+// Never serve a stale product into the edit form — saving a stale form
+// would overwrite newer data. Disable Next's data cache for this page.
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // Always read from Supabase so edits are consistent with what's saved
 async function getProduct(id: string) {
   try {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        global: {
+          fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+            fetch(input, { ...init, cache: 'no-store' }),
+        },
+      }
     )
     const { data, error } = await supabase
       .from('products')

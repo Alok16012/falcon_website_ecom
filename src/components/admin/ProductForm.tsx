@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Save, ArrowLeft, Eye } from 'lucide-react'
 import ImageUpload from './ImageUpload'
+import MultiImageUpload from './MultiImageUpload'
 
 interface SizePriceRow {
   price: string
@@ -91,12 +92,8 @@ export default function ProductForm({ initial, mode }: Props) {
     }))
   }
 
-  function setColorImage(color: string, url: string) {
-    setForm(prev => {
-      const existing = prev.colorImages?.[color] ?? []
-      const updated = url ? [url, ...existing.slice(1)] : existing.slice(1)
-      return { ...prev, colorImages: { ...prev.colorImages, [color]: updated } }
-    })
+  function setColorImages(color: string, urls: string[]) {
+    setForm(prev => ({ ...prev, colorImages: { ...prev.colorImages, [color]: urls } }))
   }
 
   function set(key: keyof ProductData, val: string | boolean | number) {
@@ -299,29 +296,26 @@ export default function ProductForm({ initial, mode }: Props) {
               <div className="bg-white rounded-xl border border-[#1E3FA3]/30 p-5">
                 <h2 className="text-sm font-bold text-gray-900 mb-1 pb-3 border-b border-gray-100 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#1E3FA3] inline-block" />
-                  Colour Swatch Images
+                  Colour Images
                 </h2>
-                <p className="text-xs text-gray-400 mb-4">Upload one image per colour — it shows as the thumbnail selector (like Skybags/Safari style).</p>
-                <div className="space-y-4">
+                <p className="text-xs text-gray-400 mb-4">
+                  Upload multiple images per colour (different angles) — the <strong>COVER</strong> image is the swatch thumbnail, and all images show in the product gallery. You can select many files at once.
+                </p>
+                <div className="space-y-5">
                   {colorList.map(color => {
                     const imgs = form.colorImages?.[color] ?? []
-                    const thumb = imgs[0] ?? ''
                     return (
-                      <div key={color} className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-lg border-2 border-gray-200 overflow-hidden bg-gray-50 flex-shrink-0">
-                          {thumb
-                            ? <img src={thumb} alt={color} className="w-full h-full object-cover" />
-                            : <span className="flex items-center justify-center h-full text-[10px] text-gray-400 text-center px-1">{color}</span>
-                          }
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs font-semibold text-gray-700 mb-1">{color}</p>
-                          <ImageUpload
-                            label=""
-                            value={thumb}
-                            onChange={url => setColorImage(color, url)}
-                          />
-                        </div>
+                      <div key={color}>
+                        <p className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          {color}
+                          <span className="text-[10px] font-normal text-gray-400">
+                            {imgs.length > 0 ? `${imgs.length} image${imgs.length > 1 ? 's' : ''}` : 'no images yet'}
+                          </span>
+                        </p>
+                        <MultiImageUpload
+                          values={imgs}
+                          onChange={urls => setColorImages(color, urls)}
+                        />
                       </div>
                     )
                   })}
